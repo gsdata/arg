@@ -178,6 +178,10 @@ function _arg_core_installed_fields(){
           'field_name' => 'descriere',
           'type' => 'text_long',
           ),
+      'referinta' => array(
+          'field_name' => 'referinta',
+          'type' => 'text',
+          ),
 
       );
 }
@@ -337,6 +341,28 @@ function _arg_core_installed_instances(){
 
               ),
            ),
+      'referinta' => array(
+          'field_name' => 'referinta',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Referinta'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
 
       );
 
