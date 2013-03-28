@@ -158,7 +158,8 @@ function arg_universitate_theme($existing, $type, $theme, $path) {
 
 function theme_arg_buton($node){
   dsm($node);
-  $output = '<h1>'. l('Adauga Facultate', 'node/add/arg-facultate/' . $node['entity']->nid ). '</h1>';
+  $options['query'] = array('nid-universitate' => $node['entity']->nid);
+  $output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
   return $output;
 
 }
