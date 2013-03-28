@@ -1,0 +1,14 @@
+<?php
+
+function arg_facultate_install() {
+
+  $t = get_t();
+  node_types_rebuild();
+  $instances = array();
+  $instances = _arg_core_installed_instances();
+  foreach ($instances as $instance) {
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = 'arg_facultate';
+    field_create_instance($instance);
+    }
+  }

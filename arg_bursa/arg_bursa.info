@@ -1,0 +1,6 @@
+name = Bursa
+description = Tip de continut pentru burse.
+package = ARG-Bursa
+core = 7.x
+files[] = arg_bursa.install
+files[] = arg_bursa.module
