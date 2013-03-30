@@ -292,7 +292,7 @@ function _arg_core_installed_instances(){
                   ),
               'teaser' => array(
                   'label' => 'hidden',
-                  'type' => 'arg_core_rgb',
+                  'type' => 'hidden',
                   ),
               ),
           ),
