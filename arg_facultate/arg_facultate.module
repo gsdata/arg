@@ -28,15 +28,9 @@ function arg_facultate_form($node, $form_state){
 }
 
 function arg_facultate_form_alter(&$form, &$form_state,$form_id){
-  dsm($form_id);
-  //dsm($form);
-  //dsm($form_state);
-  dsm($form['referinta']['und'][0]['value']['#default_value']);
-  
   if($_GET['nid-universitate'] && $form_id == 'arg_facultate_node_form'){
   	$form['referinta']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
   }
-  //$form['referinta']['#value'] = $_GET['nid-universitate'];
 }
 
 /*function arg_facultate_view($node, $view_mode) {
