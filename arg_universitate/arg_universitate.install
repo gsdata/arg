@@ -7,17 +7,19 @@ function arg_universitate_install() {
   $t = get_t();
   node_types_rebuild();
   $fields = array();
-  $fields = _arg_core_installed_fields();
+  $fields = _arg_core_campuri_fu();
   foreach($fields as $field){
 
     field_create_field($field);
   }
   $instances = array();
-  $instances = _arg_core_installed_instances();
+  $instances = _arg_core_instante_fu();
   foreach ($instances as $instance) {
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'arg_universitate';
-    field_create_instance($instance);
+    if($instance['field_name'] != 'referinta'){
+    	$instance['entity_type'] = 'node';
+    	$instance['bundle'] = 'arg_universitate';
+    	field_create_instance($instance);
+    	}
     }
   }
 
@@ -32,12 +34,7 @@ function arg_universitate_install() {
   	}
   	node_delete_multiple($nids);
   
-  //	foreach(array_keys(_arg_core_installed_fields()) as $field){
-  	//	field_delete_field($field);
-  
-  	//}
-  
-  	$instances = field_info_instances('node','arg_universitate');
+	$instances = field_info_instances('node','arg_universitate');
   	foreach($instances as $instance_name => $instance){
   		field_delete_instance($instance);
   

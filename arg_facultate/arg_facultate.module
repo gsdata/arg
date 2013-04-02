@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Modulul acesta ofera un tip de nod denumit Facultate.
- */
-
-/**
- * Implements hook_node_info().
- */
-
 function arg_facultate_node_info() {
   return array(
       'arg_facultate' => array(
@@ -33,14 +25,100 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   }
 }
 
-/*function arg_facultate_view($node, $view_mode) {
-    $node = node_object_prepare($node);
-    $node->content['pseudonim'] = array(
-        '#markup' => '',
-        );
-    $node->content['culoare_fundal'] = array(
-        '#markup' => '',
-        );
-    return $node;
 
-  }*/
+
+function arg_facultate_ds_fields_info($entity_type) {
+	$fields = array();
+	
+	$fields['buton_bursa'] = array(
+			// title: title of the field
+			'title' => t('Adauga Bursa'),
+			// type: type of field
+			// - DS_FIELD_TYPE_THEME      : calls a theming function.
+			// - DS_FIELD_TYPE_FUNCTION   : calls a custom function.
+			// - DS_FIELD_TYPE_CODE       : calls ds_render_code_field().
+			// - DS_FIELD_TYPE_BLOCK      : calls ds_render_block_field().
+			// - DS_FIELD_TYPE_PREPROCESS : calls nothing, just takes a key from the
+			//                              variable field that is passed on.
+			// - DS_FIELD_TYPE_IGNORE     : calls nothing, use this if you simple want
+			//                              to drag and drop. The field itself will have
+			//                              a theme function.
+			'field_type' => DS_FIELD_TYPE_FUNCTION,
+			// ui_limit : only used for the manage display screen so
+			// you can limit fields to show based on bundles or view modes
+			// the values are always in the form of $bundle|$view_mode
+			// You may use * to select all.
+			// Make sure you use the machine name.
+			'ui_limit' => array('article|full', '*|search_index', '*|*'),
+			// file: an optional file in which the function resides.
+			// Only for DS_FIELD_TYPE_FUNCTION.
+			// 'file' => '',
+			// function: only for DS_FIELD_TYPE_FUNCTION.
+			'function' => 'theme_arg_facultate_buton',
+			// properties: can have different keys.
+			'properties' => array(
+					// formatters: optional if a function is used.
+					// In case the field_type is DS_FIELD_TYPE_THEME, you also
+					// need to register these formatters as a theming function
+					// since the key will be called with theme('function').
+					// The value is the caption used in the selection config on Field UI.
+					'formatters' => array(
+							'node_title_nolink_h1' => t('H1 title'),
+							'node_title_link_h1' => t('H1 title, linked to node'),
+					),
+					// settings & default: optional if you have a settings form for your field.
+					'settings' => array(
+							'wrapper' => array(
+									'type' => 'textfield',
+									'description' => t('Eg: h1, h2, p'),
+							),
+							'link' => array(
+									'type' => 'select',
+									'options' => array('yes', 'no'),
+							),
+					),
+					'default' => array(
+							'wrapper' => 'h2',
+							'link' => 0,
+					),
+					// code: optional, only for code field.
+					'code' => 'my code here',
+					// use_token: optional, only for code field.
+					'use_token' => TRUE, // or FALSE,
+					// block: the module and delta of the block, only for block fields.
+					'block' => 'user-menu',
+					// block_render: block render type, only for block fields.
+					// - DS_BLOCK_CONTENT       : render through block template file.
+					// - DS_BLOCK_TITLE_CONTENT : render only title and content.
+					// - DS_BLOCK_CONTENT       : render only content.
+					'block_render' => DS_BLOCK_CONTENT,
+			),
+	);
+
+	return array('node' => $fields);
+
+}
+
+
+function arg_facultate_theme($existing, $type, $theme, $path) {
+	return array(
+			'arg_facultate_buton' => array(
+					'variables' => array(
+							'node' => NULL,
+					),
+			),
+
+	);
+}
+
+function theme_arg_facultate_buton($node){
+  
+ 
+	$options['query'] = array(
+			'nid-facultate' => $node['entity']->nid,
+			'nid-universitate' => $node['entity']->referinta['und'][0]['value'],
+			);
+	$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
+	return $output;
+
+}
