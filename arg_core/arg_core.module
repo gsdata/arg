@@ -639,5 +639,69 @@ function _arg_core_instante_fu(){
   			);
   	}
   	
+  	function arg_core_ds_fields_info($entity_type) {
+  		$fields = array();
+  	
+  		$fields['butoane'] = array(
+  				'title' => t('Adauga Butoane'),
+  				'field_type' => DS_FIELD_TYPE_FUNCTION,
+  				'ui_limit' => array('article|full', '*|search_index', '*|*'),
+  				'function' => 'theme_arg_core_buton',
+  				'properties' => array(
+  						'formatters' => array(
+  								'node_title_nolink_h1' => t('H1 title'),
+  								'node_title_link_h1' => t('H1 title, linked to node'),
+  						),
+  						'settings' => array(
+  								'wrapper' => array(
+  										'type' => 'textfield',
+  										'description' => t('Eg: h1, h2, p'),
+  								),
+  								'link' => array(
+  										'type' => 'select',
+  										'options' => array('yes', 'no'),
+  								),
+  						),
+  						'default' => array(
+  								'wrapper' => 'h2',
+  								'link' => 0,
+  						),
+  						'code' => 'my code here',
+  						'use_token' => TRUE, // or FALSE,
+  						'block' => 'user-menu',
+  						'block_render' => DS_BLOCK_CONTENT,
+  				),
+  		);
+  	
+  		return array('node' => $fields);
+  	
+  	}
+  	
+  	
+  	function arg_core_theme($existing, $type, $theme, $path) {
+  		return array(
+  				'arg_core_buton' => array(
+  						'variables' => array(
+  								'node' => NULL,
+  						),
+  				),
+  	
+  		);
+  	}
+  	
+  	function theme_arg_core_buton($node){
+  	
+  		
+  		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle']);
+  	
+  	
+  		foreach ($rezultate as $result) {
+  			$output .= $result . '<br>';
+  			
+  		}
+  		 
+  		return $output;
+  	
+  	}
 
 

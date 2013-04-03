@@ -19,84 +19,11 @@ function arg_universitate_form($node, $form_state){
 	
 }
 
-function arg_universitate_ds_fields_info($entity_type) {
-  $fields = array();
-  
-  $fields['butoane'] = array(
-    'title' => t('Adauga Butoane'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('article|full', '*|search_index', '*|*'),
-    'function' => 'theme_arg_universitate_buton',
-    'properties' => array(
-    	'formatters' => array(
-        	'node_title_nolink_h1' => t('H1 title'),
-        	'node_title_link_h1' => t('H1 title, linked to node'),
-      ),
-      	'settings' => array(
-        	'wrapper' => array(
-          		'type' => 'textfield',
-          		'description' => t('Eg: h1, h2, p'),
-        ),
-        'link' => array(
-          'type' => 'select',
-          'options' => array('yes', 'no'),
-        ),
-      ),
-      'default' => array(
-        'wrapper' => 'h2',
-        'link' => 0,
-      ),
-      'code' => 'my code here',
-      'use_token' => TRUE, // or FALSE,
-      'block' => 'user-menu',
-      'block_render' => DS_BLOCK_CONTENT,
-    ),
-  );
 
-  return array('node' => $fields);
-
-}
-
-
-function arg_universitate_theme($existing, $type, $theme, $path) {
-  return array(
-    'arg_universitate_buton' => array(
-      'variables' => array(
-        'node' => NULL,
-      ),
-    ),
-
-  );
-}
-
-function theme_arg_universitate_buton($node){
-	
-	switch ($node['bundle']){
-		case 'arg_universitate':
-			$options['query'] = array('nid-universitate' => $node['entity']->nid);
-			$output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
-			break;
-		case 'arg_facultate':
-			$options['query'] = array(
-					'nid-facultate' => $node['entity']->nid,
-					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
-			);
-			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
-			break;
-		case 'arg_bursa':
-			$options['query'] = array(
-				'nid-bursa' => $node['entity']->nid,
-			);
-			$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
-			break;
-		case 'arg_sesiune':
-			$options['query'] = array(
-				'nid-sesiune' => $node['entity']->nid,
-			);
-			$output = l('Aplica','node/add/arg-aplicatie',$options);
-			break;
+function arg_universitate_arg_core_butoane($nid,$type){
+	if($type == 'arg_universitate'){
+		$options['query'] = array('nid-universitate' => $node['entity']->nid);
+		$output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
+		return $output;
 	}
-	  
-  return $output;
-
 }

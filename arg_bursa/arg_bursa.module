@@ -28,3 +28,14 @@ function arg_bursa_form_alter(&$form, &$form_state,$form_id){
 		
 	}
 }
+
+function arg_bursa_arg_core_butoane($nid,$type){
+	if($type == 'arg_bursa'){
+		$options['query'] = array(
+				'nid-bursa' => $node['entity']->nid,
+		);
+		$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
+		return $output;
+	}
+	
+}

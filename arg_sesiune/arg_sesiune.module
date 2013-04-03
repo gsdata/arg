@@ -23,3 +23,14 @@ function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
 		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
 	}
 }
+
+function arg_sesiune_arg_core_butoane($nid,$type){
+	if($type == 'arg_sesiune'){
+		$options['query'] = array(
+				'nid-sesiune' => $node['entity']->nid,
+			);
+			$output = l('Aplica','node/add/arg-aplicatie',$options);
+		return $output;
+	}
+
+}
