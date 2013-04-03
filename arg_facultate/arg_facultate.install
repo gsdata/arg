@@ -5,7 +5,7 @@ function arg_facultate_install() {
   $t = get_t();
   node_types_rebuild();
   $instances = array();
-  $instances = _arg_core_installed_instances();
+  $instances = _arg_core_instante_fu();
   foreach ($instances as $instance) {
     $instance['entity_type'] = 'node';
     $instance['bundle'] = 'arg_facultate';
@@ -23,11 +23,6 @@ function arg_facultate_install() {
   
   	}
   	node_delete_multiple($nids);
-  
-  	//foreach(array_keys(_arg_core_installed_fields()) as $field){
-  		//field_delete_field($field);
-  
- // 	}
   
   	$instances = field_info_instances('node','arg_facultate');
   	foreach($instances as $instance_name => $instance){

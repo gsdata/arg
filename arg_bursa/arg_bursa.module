@@ -1,0 +1,30 @@
+<?php
+
+function arg_bursa_node_info() {
+  return array(
+      'arg_bursa' => array(
+          'name' => t('Bursa'),
+          'base' => 'arg_bursa',
+          'description' => t('Folositi acest tip de continut pentru a crea o Bursa noua.'),
+          'has_title' => TRUE,
+          'title_label' => 'Numele Bursei',
+          'help' => t('Introduceti numele Bursei,descrierea si conditiile de aplicare.'),
+          ),
+      );
+
+}
+function arg_bursa_form($node, $form_state){
+
+  return node_content_form($node, $form_state);
+  
+}
+
+function arg_bursa_form_alter(&$form, &$form_state,$form_id){
+	if($_GET['nid-facultate'] && $form_id == 'arg_bursa_node_form'){
+		$form['facultate']['und'][0]['value']['#default_value'] = $_GET['nid-facultate'];
+	}
+	if($_GET['nid-universitate'] && $form_id == 'arg_bursa_node_form'){
+		$form['universitate']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
+		
+	}
+}

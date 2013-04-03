@@ -1,241 +1,45 @@
 <?php
 
-/*
- * @file
- * Fisier instalare pentru Universitate.
- */
-
-/*
- * Implements hook_install()
- * - Adauga campul body.
- * - Configureaza campul body.
- * - Creaza campurile logo,nume,mail,telefon,culoare_fundal,pseudonim si adresa.
- */
-
 function arg_bursa_install() {
 
-  //field_delete_field('body');
+
   $t = get_t();
   node_types_rebuild();
-  $types = node_type_get_types();
+  $fields = array();
+  $fields = _arg_core_campuri_b();
+  foreach($fields as $field){
 
-
-  node_add_body_field($types['arg_bursa'], $label = $t('Descrierea Bursei'));
-  $body_instance = field_info_instance('node', 'body', 'arg_bursa');
-  $body_instance['type'] = 'text_summary_or_trimmed';
-  $body_instance['display'] = array (
-      'default' => array(
-          'label' => 'above',
-          'type' => 'text_default',
-          'weight' => 10,
-          ),
-      'teaser' => array(
-          'label' => 'hidden',
-          'type' => 'text_summary_or_trimmed',
-          'weight' => 10,
-          ),
-      );
-  $body_instance['widget']['weight'] = 10;
-  field_update_instance($body_instance);
-
-  foreach (_arg_bursa_installed_fields() as $field) {
     field_create_field($field);
   }
-
-  foreach (_arg_bursa_installed_instances() as $instance) {
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = 'arg_bursa';
-    field_create_instance($instance);
-  }
-  }
-
-function _arg_bursa_installed_fields() {
-  $t = get_t();
-  return array(
-      'arg_bursa_info' => array(
-          'field_name' => 'arg_bursa_logo',
-          'type' => 'image',
-          ),
-      'arg_bursa_mail' => array(
-          'field_name' => 'arg_bursa_mail',
-          'type' => 'text',
-          'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-          ),
-      'arg_bursa_telefon' => array(
-          'field_name' => 'arg_bursa_telefon',
-          'type' => 'text',
-          'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-          ),
-      'arg_bursa_adresa' => array(
-          'field_name' => 'arg_bursa_adresa',
-          'type' => 'text',
-          ),
-      'arg_bursa_culoare' => array(
-          'field_name' => 'arg_bursa_culoare',
-          'type' => 'arg_culoare_fundal_rgb',
-          ),
-      'arg_bursa_pseudonim' => array(
-          'field_name' => 'arg_bursa_pseudonim',
-          'type' => 'text',
-          ),
-      );
-
-}
-
-function _arg_bursa_installed_instances() {
-  $t = get_t();
-  return array(
-      'arg_bursa_logo' => array(
-          'field_name' => 'arg_bursa_logo',
-          'type' => 'image',
-          'label' => $t('Logo'),
-          'widget' => array(
-              'type' => 'image_image',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'hidden',
-                  'type' => 'image',
-                  'weight' => 0,
-                  ),
-              'teaser' => array(
-                  'label' => 'hidden',
-                  'type' => 'image',
-                  'weight' => 0,
-                  ),
-              ),
-          ),
-      'arg_bursa_mail' => array(
-          'field_name' => 'arg_bursa_mail',
-          'type' => 'text',
-          'label' => $t('Email'),
-          'widget' => array(
-              'type' => 'text_textfield',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
-                  'weight' => 1,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
-                  'weight' => 1,
-                  ),
-              ),
-          ),
-      'arg_bursa_telefon' => array(
-          'field_name' => 'arg_bursa_telefon',
-          'type' => 'text',
-          'label' => $t('Numar de telefon'),
-          'widget' => array(
-              'type' => 'text_textfield',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
-                  'weight' => 2,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
-                  'weight' => 2,
-                  ),
-              ),
-          ),
-      'arg_bursa_adresa' => array(
-          'field_name' => 'arg_bursa_adresa',
-          'type' => 'text',
-          'label' => $t('Adresa'),
-          'widget' => array(
-              'type' => 'text_textfield',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
-                  'weight' => 3,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
-                  'weight' => 3,
-                  ),
-              ),
-          ),
-      'arg_bursa_pseudonim' => array(
-          'field_name' => 'arg_bursa_pseudonim',
-          'type' => 'text',
-          'label' => $t('Pseudonim'),
-          'widget' => array(
-              'type' => 'text_textfield'
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
-                  'weight' => 4,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
-                  'weight' => 4,
-                  ),
-              ),
-          ),
-      'arg_bursa_culoare' => array(
-          'field_name' => 'arg_bursa_culoare',
-          'type' => 'arg_culoare_fundal_rgb',
-          'label' => $t('Culoare fundal'),
-          'widget' => array(
-              'type' => 'arg_culoare_fundal_rgb',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'arg_culoare_fundal_rgb',
-                  'weight' => 5,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'arg_culoare_fundal_rgb',
-                  'weight' => 5,
-                  ),
-              ),
-          ),
-      );
-
-}
-
-/*
- * Implements hook_uninstall().
- */
-
-function arg_bursa_uninstall(){
-  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
-  $result = db_query($sql, array(':type' => 'arg_bursa'));
-  $nids = array();
-
-  foreach($result as $row){
-    $nids[]=$row->nid;
-
-  }
-  node_delete_multiple($nids);
-
-  foreach(array_keys(_arg_bursa_installed_fields()) as $field){
-    field_delete_field($field);
-
+  $instances = array();
+  $instances = _arg_core_instante_b();
+  foreach ($instances as $instance) {
+ 
+    	$instance['entity_type'] = 'node';
+    	$instance['bundle'] = 'arg_bursa';
+    	field_create_instance($instance);
+    	
+    }
   }
 
-  $instances = field_info_instances('node','arg_bursa');
-  foreach($instances as $instance_name => $instance){
-    field_delete_instance($instance);
+  function arg_bursa_uninstall(){
+  	$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  	$result = db_query($sql, array(':type' => 'arg_bursa'));
+  	$nids = array();
+  
+  	foreach($result as $row){
+  		$nids[]=$row->nid;
+  
+  	}
+  	node_delete_multiple($nids);
 
-  }
-
-  node_type_delete('arg_bursa');
-
-  field_purge_batch(1000);
+  	$instances = field_info_instances('node','arg_bursa');
+  	foreach($instances as $instance_name => $instance){
+  		field_delete_instance($instance);
+  
+  	}
+  
+  	node_type_delete('arg_bursa');
+  
+  	field_purge_batch(1000);
   }

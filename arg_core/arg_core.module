@@ -49,10 +49,6 @@ function arg_core_field_validate($entity_type, $entity, $field, $instance, $lang
   }
 }
 
-/**
- * Implements hook_field_is_empty().
- */
-
 function arg_core_field_is_empty($item, $field){
   return empty($item['rgb']);
 }
@@ -65,10 +61,6 @@ function arg_core_field_formatter_info(){
           ),
       );
 }
-
-/**
- * Implements hook_field_formatter_view().
- */
 
 function arg_core_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display){
   $element = array();
@@ -91,10 +83,6 @@ function arg_core_field_formatter_view($entity_type, $entity, $field, $instance,
       return $element;
 }
 
-/**
- * Implements hook_field_widget_info().
- */
-
 function arg_core_field_widget_info(){
   return array(
       'culoare_colorpicker' => array(
@@ -103,10 +91,6 @@ function arg_core_field_widget_info(){
           ),
       );
 }
-
-/**
- * Implements hook_field_widget_form().
- */
 
 function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element){
   $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '';
@@ -133,11 +117,6 @@ function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $la
   return $element;
 }
 
-
-/**
- * Implements hook_field_error().
- */
-
 function arg_core_field_widget_error($element, $error, $form, &$form_state){
   switch ($error['error']){
     case 'culoare_invalid':
@@ -146,7 +125,7 @@ function arg_core_field_widget_error($element, $error, $form, &$form_state){
   }
 }
 
-function _arg_core_installed_fields(){
+function _arg_core_campuri_fu(){
   return array(
       'logo' => array(
           'field_name' => 'logo',
@@ -182,11 +161,10 @@ function _arg_core_installed_fields(){
           'field_name' => 'referinta',
           'type' => 'text',
           ),
-
       );
 }
 
-function _arg_core_installed_instances(){
+function _arg_core_instante_fu(){
   return array(
       'logo' => array(
           'field_name' => 'logo',
@@ -363,7 +341,216 @@ function _arg_core_installed_instances(){
                   ),
               ),
           ),
-
       );
+}
+  
+  function _arg_core_campuri_b(){
+  	
+  	return array(
+  			'universitate' => array(
+  					'field_name' => 'universitate',
+  					'type' => 'text',
+  			),
+  			'facultate' => array(
+  					'field_name' => 'facultate',
+  					'type' => 'text',
+  			),
+  			'facultate_partenera' => array(
+  					'field_name' => 'facultate_partenera',
+  					'type' => 'text',
+  			),
+  			'descriere_bursa' => array(
+  					'field_name' => 'descriere_bursa',
+  					'type' => 'text_long',
+  			),
+  			'conditii' => array(
+  					'field_name' => 'conditii',
+  					'type' => 'text_long',
+  			),
+  	
+  	);
+  	
+  }
+  
+  function _arg_core_instante_b(){
+  	
+  	return array(
+  			'universitate' => array(
+  					'field_name' => 'universitate',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Universitate'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'facultate' => array(
+  					'field_name' => 'facultate',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Facultate'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'facultate_partenera' => array(
+  					'field_name' => 'facultate_partenera',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Facultate Partenera'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'descriere_bursa' => array(
+  					'field_name' => 'descriere_bursa',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Descriere'),
+  					'widget' => array(
+  							'type' => 'text_long',
+  					),
+  					'display' => array (
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  							'teaser' => array(
+  									'label' => 'hidden',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  	
+  					),
+  			),
+  			'conditii' => array(
+  					'field_name' => 'conditii',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Conditii de aplicare'),
+  					'widget' => array(
+  							'type' => 'text_long',
+  					),
+  					'display' => array (
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  							'teaser' => array(
+  									'label' => 'hidden',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  	
+  					),
+  			),
+  			  	
+  	);
+  	
+  	
+  }
 
+function _arg_core_campuri_aplicatie(){
+	return array(
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
+          'type' => 'text_long',
+          ),
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
+          'type' => 'text',
+          ),
+      );
+}
+
+function _arg_core_instante_aplicatie(){
+	return array(
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Scrisoare de Intentie'),
+          'widget' => array(
+              'type' => 'text_long',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text_long',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text_long',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Sesiune'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+	);
 }

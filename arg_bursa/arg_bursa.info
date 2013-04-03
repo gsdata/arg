@@ -4,3 +4,4 @@ package = ARG-Bursa
 core = 7.x
 files[] = arg_bursa.install
 files[] = arg_bursa.module
+dependencies[] = arg_core
