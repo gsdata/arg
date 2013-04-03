@@ -3,7 +3,7 @@
 function arg_aplicatie_node_info() {
   return array(
       'arg_aplicatie' => array(
-          'name' => t('aplicatie'),
+          'name' => t('Aplicatie'),
           'base' => 'arg_aplicatie',
           'description' => t('Folositi acest tip de continut pentru a crea o aplicatie noua.'),
           'has_title' => TRUE,
@@ -20,7 +20,7 @@ function arg_aplicatie_form($node, $form_state){
 }
 
 function arg_aplicatie_form_alter(&$form, &$form_state,$form_id){
-	if($_GET['nid-bursa'] && $form_id == 'arg_bursa_node_form'){
-		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
-	}
+	if($_GET['nid-sesiune'] && $form_id == 'arg_aplicatie_node_form'){
+ 		$form['referinta_sesiune']['und'][0]['value']['#default_value'] = $_GET['nid-sesiune'];
+ 	}
 }

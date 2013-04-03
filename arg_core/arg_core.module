@@ -495,12 +495,12 @@ function _arg_core_instante_fu(){
 
 function _arg_core_campuri_aplicatie(){
 	return array(
-      'descriere' => array(
-          'field_name' => 'descriere',
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
           'type' => 'text_long',
           ),
-      'referinta' => array(
-          'field_name' => 'referinta',
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
           'type' => 'text',
           ),
       );
@@ -508,12 +508,12 @@ function _arg_core_campuri_aplicatie(){
 
 function _arg_core_instante_aplicatie(){
 	return array(
-      'descriere' => array(
-          'field_name' => 'descriere',
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
           'entity_type' => 'node',
           'bundle' => 'arg_core',
           'type' => 'text',
-          'label' => t('Descriere'),
+          'label' => t('Scrisoare de Intentie'),
           'widget' => array(
               'type' => 'text_long',
               ),
@@ -530,12 +530,12 @@ function _arg_core_instante_aplicatie(){
                   ),
               ),
           ),
-      'bursa' => array(
-          'field_name' => 'bursa',
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
           'entity_type' => 'node',
           'bundle' => 'arg_core',
           'type' => 'text',
-          'label' => t('Bursa'),
+          'label' => t('Sesiune'),
           'widget' => array(
               'type' => 'text_textfield',
               ),
