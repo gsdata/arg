@@ -15,7 +15,7 @@ function arg_universitate_install() {
   $instances = array();
   $instances = _arg_core_instante_fu();
   foreach ($instances as $instance) {
-    if($instance['field_name'] != 'referinta'){
+    if($instance['field_name'] != 'universitate_ref'){
     	$instance['entity_type'] = 'node';
     	$instance['bundle'] = 'arg_universitate';
     	field_create_instance($instance);

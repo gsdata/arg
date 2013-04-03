@@ -19,79 +19,23 @@ function arg_universitate_form($node, $form_state){
 	
 }
 
-/*function arg_universitate_form_alter(&$form, &$form_state,$form_id){
-	if($form_id == 'arg_universitate_node_form'){
-		$options['query'] = array('nid-universitate' => $node['entity']->nid);
-		$form['legatura']['und'][0]['value']['#default_value'] = l('Adauga Facultate', 'node/add/arg-facultate', $options);;
-	}
-}*/
-  /*function arg_universitate_ds_custom_fields_info(){
-  $ds_fields = array();
-
-  $ds_field = new stdClass;
-  $ds_field->api_version = 1;
-  $ds_field->field = 'custom_field';
-  $ds_field->label ='custom field';
-
-  $ds_field->field_type = 5;
-  $ds_field->entities = array(
-      'node' => 'node',
-      );
-  $ds_field->properties = array(
-      'code' => array(
-          'value' => '<? print "this is a custom field"; ?>',
-          'format' => 'ds_code',
-          ),
-      );
-  $ds_fields['custom_field'] = $ds_field;
-  return $ds_fields;
-
-}*/
-
-  function arg_universitate_ds_fields_info($entity_type) {
+function arg_universitate_ds_fields_info($entity_type) {
   $fields = array();
   
   $fields['butoane'] = array(
-    // title: title of the field
     'title' => t('Adauga Butoane'),
-    // type: type of field
-    // - DS_FIELD_TYPE_THEME      : calls a theming function.
-    // - DS_FIELD_TYPE_FUNCTION   : calls a custom function.
-    // - DS_FIELD_TYPE_CODE       : calls ds_render_code_field().
-    // - DS_FIELD_TYPE_BLOCK      : calls ds_render_block_field().
-    // - DS_FIELD_TYPE_PREPROCESS : calls nothing, just takes a key from the
-    //                              variable field that is passed on.
-    // - DS_FIELD_TYPE_IGNORE     : calls nothing, use this if you simple want
-    //                              to drag and drop. The field itself will have
-    //                              a theme function.
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    // ui_limit : only used for the manage display screen so
-    // you can limit fields to show based on bundles or view modes
-    // the values are always in the form of $bundle|$view_mode
-    // You may use * to select all.
-    // Make sure you use the machine name.
     'ui_limit' => array('article|full', '*|search_index', '*|*'),
-    // file: an optional file in which the function resides.
-    // Only for DS_FIELD_TYPE_FUNCTION.
-   // 'file' => '',
-    // function: only for DS_FIELD_TYPE_FUNCTION.
     'function' => 'theme_arg_universitate_buton',
-    // properties: can have different keys.
     'properties' => array(
-      // formatters: optional if a function is used.
-      // In case the field_type is DS_FIELD_TYPE_THEME, you also
-      // need to register these formatters as a theming function
-      // since the key will be called with theme('function').
-      // The value is the caption used in the selection config on Field UI.
-      'formatters' => array(
-        'node_title_nolink_h1' => t('H1 title'),
-        'node_title_link_h1' => t('H1 title, linked to node'),
+    	'formatters' => array(
+        	'node_title_nolink_h1' => t('H1 title'),
+        	'node_title_link_h1' => t('H1 title, linked to node'),
       ),
-      // settings & default: optional if you have a settings form for your field.
-      'settings' => array(
-        'wrapper' => array(
-          'type' => 'textfield',
-          'description' => t('Eg: h1, h2, p'),
+      	'settings' => array(
+        	'wrapper' => array(
+          		'type' => 'textfield',
+          		'description' => t('Eg: h1, h2, p'),
         ),
         'link' => array(
           'type' => 'select',
@@ -102,16 +46,9 @@ function arg_universitate_form($node, $form_state){
         'wrapper' => 'h2',
         'link' => 0,
       ),
-      // code: optional, only for code field.
       'code' => 'my code here',
-      // use_token: optional, only for code field.
       'use_token' => TRUE, // or FALSE,
-      // block: the module and delta of the block, only for block fields.
       'block' => 'user-menu',
-      // block_render: block render type, only for block fields.
-      // - DS_BLOCK_CONTENT       : render through block template file.
-      // - DS_BLOCK_TITLE_CONTENT : render only title and content.
-      // - DS_BLOCK_CONTENT       : render only content.
       'block_render' => DS_BLOCK_CONTENT,
     ),
   );
@@ -133,7 +70,7 @@ function arg_universitate_theme($existing, $type, $theme, $path) {
 }
 
 function theme_arg_universitate_buton($node){
-	//dsm($node);
+	
 	switch ($node['bundle']){
 		case 'arg_universitate':
 			$options['query'] = array('nid-universitate' => $node['entity']->nid);
@@ -142,7 +79,7 @@ function theme_arg_universitate_buton($node){
 		case 'arg_facultate':
 			$options['query'] = array(
 					'nid-facultate' => $node['entity']->nid,
-					'nid-universitate' => $node['entity']->referinta['und'][0]['value'],
+					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
 			);
 			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
 			break;
@@ -152,8 +89,14 @@ function theme_arg_universitate_buton($node){
 			);
 			$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
 			break;
+		case 'arg_sesiune':
+			$options['query'] = array(
+				'nid-sesiune' => $node['entity']->nid,
+			);
+			$output = l('Aplica','node/add/arg-aplicatie',$options);
+			break;
 	}
-  
+	  
   return $output;
 
 }

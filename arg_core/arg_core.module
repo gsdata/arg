@@ -1,10 +1,12 @@
 <?php
-
 variable_set('node_submitted_arg_universitate','0');
 variable_set('node_submitted_arg_facultate','0');
 variable_set('node_submitted_arg_bursa','0');
 variable_set('node_submitted_arg_sesiune','0');
 variable_set('node_submitted_arg_aplicatie','0');
+
+
+
 
 
 function arg_core_field_info(){
@@ -17,9 +19,6 @@ function arg_core_field_info(){
           ),
       );
 }
-/**
- * Implements hook_field_schema().
- */
 
 function arg_core_field_schema($field){
   $columns = array(
@@ -159,8 +158,8 @@ function _arg_core_campuri_fu(){
           'field_name' => 'descriere',
           'type' => 'text_long',
           ),
-      'referinta' => array(
-          'field_name' => 'referinta',
+      'universitate_ref' => array(
+          'field_name' => 'universitate_ref',
           'type' => 'text',
           ),
       );
@@ -321,12 +320,12 @@ function _arg_core_instante_fu(){
 
               ),
            ),
-      'referinta' => array(
-          'field_name' => 'referinta',
+      'universitate_ref' => array(
+          'field_name' => 'universitate_ref',
           'entity_type' => 'node',
           'bundle' => 'arg_core',
           'type' => 'text',
-          'label' => t('Referinta'),
+          'label' => t('Universitate'),
           'widget' => array(
               'type' => 'text_textfield',
               ),
@@ -491,68 +490,154 @@ function _arg_core_instante_fu(){
   			),
   			  	
   	);
-  	
-  	
   }
+  	
+  	function _arg_core_campuri_sesiune(){
+  		return array(
+  				'data_inceput' => array(
+  						'field_name' => 'data_inceput',
+  						'type' => 'datestamp',
+  						'setiings' => array(
+  								'repeat' => 0,
+  								'granularity' => array(
+  										'year' => 'year',
+  										'month' => 'month',
+  										'day' => 'day',
+  										),
+  								'tz_handling' => 'none',
+  								),
+  				),
+  				'data_sfarsit' => array(
+  						'field_name' => 'data_sfarsit',
+  						'type' => 'datestamp',
+  						'setiings' => array(
+  								'repeat' => 0,
+  								'granularity' => array(
+  										'year' => 'year',
+  										'month' => 'month',
+  										'day' => 'day',
+  								),
+  								'tz_handling' => 'none',
+  						),
+  				),
+  				'bursa' => array(
+  						'field_name' => 'bursa',
+  						'type' => 'text',
+  				),
+  				'stare' => array(
+  						'field_name' => 'stare',
+  						'type' => 'arg_core_rgb',
+  						),
+  			);
+  				
+  				
+  				
+  	}
+  	
+  	function _arg_core_instante_sesiune(){
+  		
+  		return array(
+  				'data_inceput' => array(
+  						'field_name' => 'data_inceput',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'label' => t('Data de inceput a sesiunii curente'),
+  						'widget' => array(
+  								'type' => 'date_popup',
+  								'settings' => array(
+  										'input_format' => 'd-m-Y',
+  										'year_range' => '-10:+5',
+  										'increment' => 1,
+  										),
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'weight' => 1,
+  								),
+  						),
+  				),
+  				'data_sfarsit' => array(
+  						'field_name' => 'data_sfarsit',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'label' => t('Data de sfarsit a sesiunii curente'),
+  						'widget' => array(
+  								'type' => 'date_popup',
+  								'settings' => array(
+  										'input_format' => 'd-m-Y',
+  										'year_range' => '-10:+5',
+  										'increment' => 1,
+  								),
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'weight' => 1,
+  								),
+  						),
+  				),
+  				'bursa' => array(
+  						'field_name' => 'bursa',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'type' => 'text',
+  						'label' => t('Facultate'),
+  						'widget' => array(
+  								'type' => 'text_textfield',
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  						),
+  				),
+  				'stare' =>array(
+  						'field_name' => 'stare',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'type' => 'arg_core_rgb',
+  						'label' => t('Stare'),
+  						'widget' => array(
+  								'type' => 'culoare_colorpicker',
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'hidden',
+  										'type' => 'arg_core_rgb',
+  								),
+  								'teaser' => array(
+  										'label' => 'hidden',
+  										'type' => 'hidden',
+  								),
+  						),
+  				),
+  				
+  			);
+  	}
+  	
 
-function _arg_core_campuri_aplicatie(){
-	return array(
-      'scrisoare_intentie' => array(
-          'field_name' => 'scrisoare_intentie',
-          'type' => 'text_long',
-          ),
-      'referinta_sesiune' => array(
-          'field_name' => 'referinta_sesiune',
-          'type' => 'text',
-          ),
-      );
-}
 
-function _arg_core_instante_aplicatie(){
-	return array(
-      'scrisoare_intentie' => array(
-          'field_name' => 'scrisoare_intentie',
-          'entity_type' => 'node',
-          'bundle' => 'arg_core',
-          'type' => 'text',
-          'label' => t('Scrisoare de Intentie'),
-          'widget' => array(
-              'type' => 'text_long',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text_long',
-                  'weight' => 1,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text_long',
-                  'weight' => 1,
-                  ),
-              ),
-          ),
-      'referinta_sesiune' => array(
-          'field_name' => 'referinta_sesiune',
-          'entity_type' => 'node',
-          'bundle' => 'arg_core',
-          'type' => 'text',
-          'label' => t('Sesiune'),
-          'widget' => array(
-              'type' => 'text_textfield',
-              ),
-          'display' => array(
-              'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
-                  'weight' => 1,
-                  ),
-              'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
-                  'weight' => 1,
-                  ),
-              ),
-          ),
-	);
-}
