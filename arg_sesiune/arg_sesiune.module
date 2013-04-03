@@ -1,0 +1,25 @@
+<?php 
+
+function arg_sesiune_node_info() {
+	return array(
+			'arg_sesiune' => array(
+					'name' => t('Sesiune'),
+					'base' => 'arg_sesiune',
+					'description' => t('Folositi acest tip de continut pentru a adauga o sesiune noua.'),
+					'has_title' => FALSE,
+					'help' => t('Introduceti perioada de desfasurare a sesiunii.'),
+			),
+	);
+
+}
+function arg_sesiune_form($node, $form_state){
+
+	return node_content_form($node, $form_state);
+
+}
+
+function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
+	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
+		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
+	}
+}

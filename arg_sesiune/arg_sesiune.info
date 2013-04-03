@@ -1,0 +1,7 @@
+name = Sesiune
+description = Tip de continut pentru sesiuni.
+package = ARG-Bursa
+core = 7.x
+files[] = arg_sesiune.install
+files[] = arg_sesiune.module
+dependencies[] = arg_core
