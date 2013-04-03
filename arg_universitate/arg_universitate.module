@@ -51,9 +51,9 @@ function arg_universitate_form($node, $form_state){
   function arg_universitate_ds_fields_info($entity_type) {
   $fields = array();
   
-  $fields['buton_fac'] = array(
+  $fields['butoane'] = array(
     // title: title of the field
-    'title' => t('Adauga Facultate'),
+    'title' => t('Adauga Butoane'),
     // type: type of field
     // - DS_FIELD_TYPE_THEME      : calls a theming function.
     // - DS_FIELD_TYPE_FUNCTION   : calls a custom function.
@@ -133,9 +133,27 @@ function arg_universitate_theme($existing, $type, $theme, $path) {
 }
 
 function theme_arg_universitate_buton($node){
-
-  $options['query'] = array('nid-universitate' => $node['entity']->nid);
-  $output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
+	//dsm($node);
+	switch ($node['bundle']){
+		case 'arg_universitate':
+			$options['query'] = array('nid-universitate' => $node['entity']->nid);
+			$output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
+			break;
+		case 'arg_facultate':
+			$options['query'] = array(
+					'nid-facultate' => $node['entity']->nid,
+					'nid-universitate' => $node['entity']->referinta['und'][0]['value'],
+			);
+			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
+			break;
+		case 'arg_bursa':
+			$options['query'] = array(
+				'nid-bursa' => $node['entity']->nid,
+			);
+			$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
+			break;
+	}
+  
   return $output;
 
 }

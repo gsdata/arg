@@ -25,7 +25,7 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   }
 }
 
-
+/*
 
 function arg_facultate_ds_fields_info($entity_type) {
 	$fields = array();
@@ -121,4 +121,4 @@ function theme_arg_facultate_buton($node){
 	$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
 	return $output;
 
-}
+}*/
