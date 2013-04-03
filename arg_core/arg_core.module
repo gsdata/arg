@@ -1,9 +1,11 @@
 <?php
 
-variable_set('comment_arg_universitate','0');
-variable_set('comment_arg_facultate','0');
 variable_set('node_submitted_arg_universitate','0');
 variable_set('node_submitted_arg_facultate','0');
+variable_set('node_submitted_arg_bursa','0');
+variable_set('node_submitted_arg_sesiune','0');
+variable_set('node_submitted_arg_aplicatie','0');
+
 
 function arg_core_field_info(){
   return array(
