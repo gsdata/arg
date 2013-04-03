@@ -693,7 +693,7 @@ function _arg_core_instante_fu(){
   	function theme_arg_core_buton($node){
   	
   		
-  		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle']);
+  		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle'],$node);
   	
   	
   		foreach ($rezultate as $result) {
