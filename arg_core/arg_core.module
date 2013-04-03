@@ -495,3 +495,64 @@ function _arg_core_instante_fu(){
   	
   }
 
+function _arg_core_campuri_aplicatie(){
+	return array(
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
+          'type' => 'text_long',
+          ),
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
+          'type' => 'text',
+          ),
+      );
+}
+
+function _arg_core_instante_aplicatie(){
+	return array(
+      'scrisoare_intentie' => array(
+          'field_name' => 'scrisoare_intentie',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Scrisoare de Intentie'),
+          'widget' => array(
+              'type' => 'text_long',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text_long',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text_long',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+      'referinta_sesiune' => array(
+          'field_name' => 'referinta_sesiune',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Sesiune'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+	);
+}
