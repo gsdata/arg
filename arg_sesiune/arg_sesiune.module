@@ -24,7 +24,7 @@ function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
 	}
 }
 
-function arg_sesiune_arg_core_butoane($nid,$type){
+function arg_sesiune_arg_core_butoane($nid,$type,$node){
 	if($type == 'arg_sesiune'){
 		$options['query'] = array(
 				'nid-sesiune' => $node['entity']->nid,

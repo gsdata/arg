@@ -25,7 +25,7 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   }
 }
 
-function arg_facultate_arg_core_butoane($nid, $type){
+function arg_facultate_arg_core_butoane($nid, $type,$node){
 	
 	if( $type =='arg_facultate'){
 		$options['query'] = array(

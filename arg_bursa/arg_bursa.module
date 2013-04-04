@@ -19,7 +19,7 @@ function arg_bursa_form($node, $form_state){
   
 }
 
-function arg_bursa_form_alter(&$form, &$form_state,$form_id){
+function arg_bursa_form_alter(&$form, &$form_state,$form_id,$node){
 	if($_GET['nid-facultate'] && $form_id == 'arg_bursa_node_form'){
 		$form['facultate']['und'][0]['value']['#default_value'] = $_GET['nid-facultate'];
 	}
