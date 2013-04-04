@@ -1,6 +1,0 @@
-name = Core
-description = Modulul de baza al aplicatiei.
-core = 7.x
-package = ARG-Bursa
-files[] = arg_core.install
-files[] = arg_core.module

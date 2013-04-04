@@ -1,7 +1,0 @@
-name = Universitate
-description = Continut de tip Universitate
-package = ARG-Bursa
-core = 7.x
-files[] = arg_universitate.install
-files[] = arg_universitate.module
-dependencies[] = arg_core

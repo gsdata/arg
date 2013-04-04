@@ -1,7 +1,0 @@
-name = Facultate
-description = Continut de tip Facultate
-package = ARG-Bursa
-core = 7.x
-files[] = arg_facultate.install
-files[] = arg_facultate.module
-dependencies[] = arg_universitate
