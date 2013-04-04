@@ -1,0 +1,7 @@
+name = Aplicatie
+description = Tip de continut pentru aplicatii.
+package = ARG-Bursa
+core = 7.x
+files[] = arg_aplicatie.install
+files[] = arg_aplicatie.module
+dependencies[] = arg_core

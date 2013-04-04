@@ -1,0 +1,36 @@
+<?php
+
+function arg_facultate_install() {
+
+  $t = get_t();
+  node_types_rebuild();
+  $instances = array();
+  $instances = _arg_core_instante_fu();
+  foreach ($instances as $instance) {
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = 'arg_facultate';
+    field_create_instance($instance);
+    }
+  }
+
+  function arg_facultate_uninstall(){
+  	$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  	$result = db_query($sql, array(':type' => 'arg_facultate'));
+  	$nids = array();
+  
+  	foreach($result as $row){
+  		$nids[]=$row->nid;
+  
+  	}
+  	node_delete_multiple($nids);
+  
+  	$instances = field_info_instances('node','arg_facultate');
+  	foreach($instances as $instance_name => $instance){
+  		field_delete_instance($instance);
+  
+  	}
+  
+  	node_type_delete('arg_facultate');
+  
+  	field_purge_batch(1000);
+  }

@@ -1,0 +1,45 @@
+<?php
+
+function arg_aplicatie_install() {
+
+
+  $t = get_t();
+  node_types_rebuild();
+  $fields = array();
+  $fields = _arg_core_campuri_aplicatie();
+  foreach($fields as $field){
+
+    field_create_field($field);
+  }
+  $instances = array();
+  $instances = _arg_core_instante_aplicatie();
+  foreach ($instances as $instance) {
+ 
+    	$instance['entity_type'] = 'node';
+    	$instance['bundle'] = 'arg_aplicatie';
+    	field_create_instance($instance);
+    	
+    }
+  }
+
+  function arg_aplicatie_uninstall(){
+  	$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  	$result = db_query($sql, array(':type' => 'arg_aplicatie'));
+  	$nids = array();
+  
+  	foreach($result as $row){
+  		$nids[]=$row->nid;
+  
+  	}
+  	node_delete_multiple($nids);
+
+  	$instances = field_info_instances('node','arg_aplicatie');
+  	foreach($instances as $instance_name => $instance){
+  		field_delete_instance($instance);
+  
+  	}
+  
+  	node_type_delete('arg_aplicatie');
+  
+  	field_purge_batch(1000);
+  }
