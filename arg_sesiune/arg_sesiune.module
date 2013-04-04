@@ -6,7 +6,8 @@ function arg_sesiune_node_info() {
 					'name' => t('Sesiune'),
 					'base' => 'arg_sesiune',
 					'description' => t('Folositi acest tip de continut pentru a adauga o sesiune noua.'),
-					'has_title' => FALSE,
+					'has_title' => TRUE,
+					'title_label' => 'Sesiune',
 					'help' => t('Introduceti perioada de desfasurare a sesiunii.'),
 			),
 	);
