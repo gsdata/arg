@@ -598,7 +598,7 @@ function _arg_core_instante_fu(){
   						'entity_type' => 'node',
   						'bundle' => 'arg_core',
   						'type' => 'text',
-  						'label' => t('Facultate'),
+  						'label' => t('Bursa'),
   						'widget' => array(
   								'type' => 'text_textfield',
   						),
