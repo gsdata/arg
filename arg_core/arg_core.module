@@ -494,11 +494,12 @@ function _arg_core_instante_fu(){
   	
   	function _arg_core_campuri_sesiune(){
   		return array(
-  				'data_inceput' => array(
-  						'field_name' => 'data_inceput',
+  				'perioada' => array(
+  						'field_name' => 'perioada',
   						'type' => 'datestamp',
   						'setiings' => array(
   								'repeat' => 0,
+  								'todate' =>'required',
   								'granularity' => array(
   										'year' => 'year',
   										'month' => 'month',
@@ -506,19 +507,6 @@ function _arg_core_instante_fu(){
   										),
   								'tz_handling' => 'none',
   								),
-  				),
-  				'data_sfarsit' => array(
-  						'field_name' => 'data_sfarsit',
-  						'type' => 'datestamp',
-  						'setiings' => array(
-  								'repeat' => 0,
-  								'granularity' => array(
-  										'year' => 'year',
-  										'month' => 'month',
-  										'day' => 'day',
-  								),
-  								'tz_handling' => 'none',
-  						),
   				),
   				'bursa' => array(
   						'field_name' => 'bursa',
@@ -537,15 +525,15 @@ function _arg_core_instante_fu(){
   	function _arg_core_instante_sesiune(){
   		
   		return array(
-  				'data_inceput' => array(
-  						'field_name' => 'data_inceput',
+  				'perioada' => array(
+  						'field_name' => 'perioada',
   						'entity_type' => 'node',
   						'bundle' => 'arg_core',
-  						'label' => t('Data de inceput a sesiunii curente'),
+  						'label' => t('Perioada de desfasurare a sesiunii curente'),
   						'widget' => array(
   								'type' => 'date_popup',
   								'settings' => array(
-  										'input_format' => 'd-m-Y',
+  										'input_format' => 'd/m/Y',
   										'year_range' => '-10:+5',
   										'increment' => 1,
   										),
@@ -555,40 +543,18 @@ function _arg_core_instante_fu(){
   										'label' => 'above',
   										'type' => 'date_default',
   										'format_type' => 'short',
+  										'settings' => array(
+  												'fromto' => 'both',
+  												),
   										'weight' => 1,
   								),
   								'teaser' => array(
   										'label' => 'inline',
   										'type' => 'date_default',
   										'format_type' => 'short',
-  										'weight' => 1,
-  								),
-  						),
-  				),
-  				'data_sfarsit' => array(
-  						'field_name' => 'data_sfarsit',
-  						'entity_type' => 'node',
-  						'bundle' => 'arg_core',
-  						'label' => t('Data de sfarsit a sesiunii curente'),
-  						'widget' => array(
-  								'type' => 'date_popup',
-  								'settings' => array(
-  										'input_format' => 'd-m-Y',
-  										'year_range' => '-10:+5',
-  										'increment' => 1,
-  								),
-  						),
-  						'display' => array(
-  								'default' => array(
-  										'label' => 'above',
-  										'type' => 'date_default',
-  										'format_type' => 'short',
-  										'weight' => 1,
-  								),
-  								'teaser' => array(
-  										'label' => 'inline',
-  										'type' => 'date_default',
-  										'format_type' => 'short',
+  										'settings' => array(
+  												'fromto' => 'both',
+  										),
   										'weight' => 1,
   								),
   						),
@@ -598,7 +564,7 @@ function _arg_core_instante_fu(){
   						'entity_type' => 'node',
   						'bundle' => 'arg_core',
   						'type' => 'text',
-  						'label' => t('Facultate'),
+  						'label' => t('Bursa'),
   						'widget' => array(
   								'type' => 'text_textfield',
   						),
@@ -692,7 +658,7 @@ function _arg_core_instante_fu(){
   	
   	function theme_arg_core_buton($node){
   	
-  		
+  		$output = '';
   		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle'],$node);
   	
   	
