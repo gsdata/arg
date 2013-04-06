@@ -1,0 +1,61 @@
+<?php 
+
+function arg_utilizator_install() {
+
+
+	$t = get_t();
+	//node_types_rebuild();
+	$fields = array();
+	$fields = _arg_core_campuri_utilizator();
+	foreach($fields as $field){
+
+		field_create_field($field);
+	}
+	$instances = array();
+	$instances = _arg_core_instante_utilizator();
+	foreach ($instances as $instance) {
+
+		$instance['entity_type'] = 'user';
+		$instance['bundle'] = 'user';
+		field_create_instance($instance);
+		 
+	}
+	
+	drupal_install_schema('arg_utilizator');
+}
+
+function arg_utilizator_uninstall(){
+	drupal_uninstall_schema('arg_utilizator');
+}
+
+function arg_utilizator_schema(){
+$schema['arg_utilizator_drepturi'] = array(
+		'description' => 'TODO: please describe this table!',
+		'fields' => array(
+				'nr' => array(
+						'description' => 'TODO: please describe this field!',
+						'type' => 'serial',
+						'not null' => TRUE,
+				),
+				'uid' => array(
+						'description' => 'TODO: please describe this field!',
+						'type' => 'int',
+						'not null' => TRUE,
+				),
+				'nid' => array(
+						'description' => 'TODO: please describe this field!',
+						'type' => 'int',
+						'not null' => TRUE,
+				),
+				'drept' => array(
+						'description' => 'TODO: please describe this field!',
+						'type' => 'varchar',
+						'length' => '15',
+						'not null' => TRUE,
+				),
+		),
+		'primary key' => array('nr'),
+);
+
+return $schema;
+}

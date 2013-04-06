@@ -60,6 +60,10 @@ function arg_core_field_formatter_info(){
           'label' => t('Color Picker'),
           'field types' => array('arg_core_rgb'),
           ),
+  	 /* 'culoare_color_backgroud_simplu' => array(
+  	  		'label' => t('Schimba culoarea automat in functie de status.'),
+  	  		'field types' => array('arg_core_rgb'),
+  	  		)*/
       );
 }
 
@@ -90,6 +94,10 @@ function arg_core_field_widget_info(){
           'label' => t('Color Picker'),
           'field types' => array('arg_core_rgb'),
           ),
+  		'culoare_simplu' => array(
+  				'label' => t('RGB'),
+  				'field types' => array('arg_core_rgb'),
+  				),
       );
 }
 
@@ -98,6 +106,8 @@ function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $la
 
   $widget = $element;
   $widget['#delta'] = $delta;
+  switch ($instance['widget']['type']){
+  	case 'culoare_colorpicker':
   $widget += array(
         '#suffix' => '<div class="culoare-colorpicker"></div>',
         '#attributes' => array('class' => array('edit-culoare-colorpicker')),
@@ -114,8 +124,18 @@ function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $la
         '#size' => 7,
         '#maxlength' => 7,
       );
+  break;
+  	case 'culoare_simplu':
+  		$widget += array(
+  				'#type' => 'textfield',
+  				'#default_value' => $value,
+  				'#size' => 7,
+  				'#maxlength' => 7,
+  		);
+  		break;
   $element['rgb'] = $widget;
   return $element;
+}
 }
 
 function arg_core_field_widget_error($element, $error, $form, &$form_state){
@@ -286,13 +306,13 @@ function _arg_core_instante_fu(){
               ),
           'display' => array(
               'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 5,
                   ),
               'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 5,
                   ),
               ),
@@ -605,6 +625,52 @@ function _arg_core_instante_fu(){
   			);
   	}
   	
+  	function _arg_core_campuri_utilizator(){
+  		
+  		return array(
+  				'tip_cont' => array(
+  						'field_name' => 'tip_cont',
+  						'no_ui' => FALSE,
+  						'type' => 'list_integer',
+  						'settings' => array('allowed_values' => array(
+  								0 =>'student',
+  								1 =>'profesor',
+  								2 =>'companie'),
+  											 'allowed_values_function' => ''),
+  						
+  						),
+  				);
+  	}
+  	
+  	function _arg_core_instante_utilizator(){
+  		return array(
+  			'tip_cont' => array(
+  				'field_name' => 'tip_cont',
+  				'entity_type' => 'user',
+  				'bundle' => 'arg_core',
+  				'type' => 'text',
+  				'label' => t('Tipul contului'),
+  				'widget' => array(
+  						'type' => 'options_select',
+  				),
+  				'settings' => array(
+  						'user_register_form' => 1),
+  				'display' => array(
+  						'default' => array(
+  								'label' => 'above',
+  								'type' => 'list_default',
+  								'weight' => 1,
+  						),
+  						'teaser' => array(
+  								'label' => 'inline',
+  								'type' => 'list_default',
+  								'weight' => 1,
+  						),
+  				),
+  		   ),
+  	 );
+  		
+  	}
 
   	function arg_core_ds_fields_info($entity_type) {
   		$fields = array();
