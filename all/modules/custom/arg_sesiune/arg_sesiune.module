@@ -35,3 +35,37 @@ function arg_sesiune_arg_core_butoane($nid,$type,$node){
 	}
 
 }
+
+function arg_sesiune_permission(){
+	return array(
+			'adauga sesiune' => array(
+					'title' => 'Adauga sesiune',
+					'description' => 'Ofera posibilitatea de a adauga o sesiune'
+					),
+			'update sesiune' => array(
+					'title' => 'Update sesiune',
+					'description' => 'Ofera posibilitatea de a edita o sesiune'
+					),
+			'delete sesiune' => array(
+					'title' => 'Delete sesiune',
+					'description' => 'Ofera posibilitatea de a sterge o  sesiune'
+					),
+			);
+}
+
+function arg_sesiune_node_access($node, $op, $account){
+	switch ($op){
+		case 'create':
+			if(user_access('adauga sesiune',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'update':
+			if(user_access('update sesiune',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'delete':
+			if(user_access('delete sesiune',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+	}
+}

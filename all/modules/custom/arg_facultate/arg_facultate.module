@@ -38,3 +38,37 @@ function arg_facultate_arg_core_butoane($nid, $type,$node){
 	}
 
 }
+
+function arg_facultate_permission(){
+	return array(
+			'adauga facultate' => array(
+					'title' => 'Adauga Facultate',
+					'description' => 'Ofera posibilitatea de a adauga o facultate'
+					),
+			'update facultate' => array(
+					'title' => 'Update Facultate',
+					'description' => 'Ofera posibilitatea de a edita o facultate'
+					),
+			'delete facultate' => array(
+					'title' => 'Delete Facultate',
+					'description' => 'Ofera posibilitatea de a sterge o  facultate'
+					),
+			);
+}
+
+function arg_facultate_node_access($node, $op, $account){
+	switch ($op){
+		case 'create':
+			if(user_access('adauga facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'update':
+			if(user_access('update facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'delete':
+			if(user_access('delete facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+	}
+}

@@ -39,3 +39,37 @@ function arg_bursa_arg_core_butoane($nid,$type,$node){
 	}
 	
 }
+
+function arg_bursa_permission(){
+	return array(
+			'adauga bursa' => array(
+					'title' => 'Adauga bursa',
+					'description' => 'Ofera posibilitatea de a adauga o bursa'
+					),
+			'update bursa' => array(
+					'title' => 'Update bursa',
+					'description' => 'Ofera posibilitatea de a edita o bursa'
+					),
+			'delete bursa' => array(
+					'title' => 'Delete bursa',
+					'description' => 'Ofera posibilitatea de a sterge o  bursa'
+					),
+			);
+}
+
+function arg_bursa_node_access($node, $op, $account){
+	switch ($op){
+		case 'create':
+			if(user_access('adauga bursa',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'update':
+			if(user_access('update bursa',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'delete':
+			if(user_access('delete bursa',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+	}
+}

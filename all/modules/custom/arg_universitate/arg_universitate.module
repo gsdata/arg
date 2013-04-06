@@ -27,3 +27,41 @@ function arg_universitate_arg_core_butoane($nid,$type,$node){
 		return $output;
 	}
 }
+
+function arg_universitate_permission(){
+	return array(
+			'adauga universitate' => array(
+					'title' => 'Adauga Universitate',
+					'description' => 'Ofera posibilitatea de a adauga o universitate'
+					),
+			'update universitate' => array(
+					'title' => 'Update Universitate',
+					'description' => 'Ofera posibilitatea de a edita o universitate'
+					),
+			'delete universitate' => array(
+					'title' => 'Delete Universitate',
+					'description' => 'Ofera posibilitatea de a sterge o  universitate'
+					),
+			);
+}
+
+function arg_universitate_node_access($node, $op, $account){
+	switch ($op){
+		case 'create':
+			if(user_access('adauga universitate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'update':
+			if(user_access('update universitate',$account)){
+				$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=%d AND nid=%d AND drept='edit'";
+				$result = db_result($query,$account->uid,$node->nid);
+				if($result = $accout->uid){
+					return NODE_ACCESS_ALLOW;
+				}
+			}
+		case 'delete':
+			if(user_access('delete universitate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+	}
+}
