@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the arg_features feature.
+ */
+
+include_once 'arg_features.features.inc';

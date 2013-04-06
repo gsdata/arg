@@ -1,0 +1,74 @@
+<?php
+
+function arg_facultate_node_info() {
+  return array(
+      'arg_facultate' => array(
+          'name' => t('Facultate'),
+          'base' => 'arg_facultate',
+          'description' => t('Folositi acest tip de continut pentru a crea o Facultate noua.'),
+          'has_title' => TRUE,
+          'title_label' => 'Numele Facultatii',
+          'help' => t('Introduceti numele Facultatii,descrierea si datele de contact.'),
+          ),
+      );
+
+}
+function arg_facultate_form($node, $form_state){
+  
+  return node_content_form($node, $form_state);
+
+}
+
+function arg_facultate_form_alter(&$form, &$form_state,$form_id){
+  if($_GET['nid-universitate'] && $form_id == 'arg_facultate_node_form'){
+  	$form['universitate_ref']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
+  }
+}
+
+function arg_facultate_arg_core_butoane($nid, $type,$node){
+	
+	if( $type =='arg_facultate'){
+		$options['query'] = array(
+					'nid-facultate' => $node['entity']->nid,
+					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
+			);
+			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
+		
+		return $output;
+	}
+
+}
+
+function arg_facultate_permission(){
+	return array(
+			'adauga facultate' => array(
+					'title' => 'Adauga Facultate',
+					'description' => 'Ofera posibilitatea de a adauga o facultate'
+					),
+			'update facultate' => array(
+					'title' => 'Update Facultate',
+					'description' => 'Ofera posibilitatea de a edita o facultate'
+					),
+			'delete facultate' => array(
+					'title' => 'Delete Facultate',
+					'description' => 'Ofera posibilitatea de a sterge o  facultate'
+					),
+			);
+}
+
+function arg_facultate_node_access($node, $op, $account){
+	switch ($op){
+		case 'create':
+			if(user_access('adauga facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'update':
+			if(user_access('update facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+		case 'delete':
+			if(user_access('delete facultate',$account)){
+				return NODE_ACCESS_ALLOW;
+			}
+	}
+}
