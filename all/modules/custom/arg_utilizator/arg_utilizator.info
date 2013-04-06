@@ -1,0 +1,7 @@
+name = Utilizator
+description = Continut de tip Utilizator
+package = ARG-Bursa
+core = 7.x
+files[] = arg_utilizator.install
+files[] = arg_utilizator.module
+dependencies[] = arg_core

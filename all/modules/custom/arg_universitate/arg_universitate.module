@@ -15,6 +15,7 @@ function arg_universitate_node_info() {
 }
 function arg_universitate_form($node, $form_state){
 
+
 	return node_content_form($node, $form_state);
 	
 }
@@ -63,5 +64,17 @@ function arg_universitate_node_access($node, $op, $account){
 			if(user_access('delete universitate',$account)){
 				return NODE_ACCESS_ALLOW;
 			}
+	
+	return node_content_form($node, $form_state);
+	
+}
+
+
+
+function arg_universitate_arg_core_butoane($nid,$type,$node){
+	if($type == 'arg_universitate'){
+		$options['query'] = array('nid-universitate' => $node['entity']->nid);
+		$output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
+		return $output;
 	}
 }

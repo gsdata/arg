@@ -60,6 +60,7 @@ function arg_core_field_formatter_info(){
           'label' => t('Color Picker'),
           'field types' => array('arg_core_rgb'),
           ),
+
       );
 }
 
@@ -691,8 +692,672 @@ function _arg_core_instante_fu(){
   	}
   	
   	function theme_arg_core_buton($node){
+  	return array(
+  	  'culoare_color_backgroud_simplu' => array(
+  	  		'label' => t('Schimba culoarea automat in functie de status.'),
+  	  		'field types' => array('arg_core_rgb'),
+  	  		),
+  	  );
+}
+
+function arg_core_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display){
+  $element = array();
+  $element['#label_display'] = 'hidden';
+
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#type' => 'html_tag',
+          '#tag' => 'p',
+          '#attached' => array(
+            'css' => array(
+              array(
+                'data' => '.region-sidebar-first, .region-sidebar-second { background-color:' . $item['rgb'] . ';}',
+                'type' => 'inline',
+              ),
+            ),
+          ),
+        );
+      }
+      return $element;
+}
+
+function arg_core_field_widget_info(){
+  return array(
+      'culoare_colorpicker' => array(
+          'label' => t('Color Picker'),
+          'field types' => array('arg_core_rgb'),
+          ),
+  		'culoare_simplu' => array(
+  				'label' => t('RGB'),
+  				'field types' => array('arg_core_rgb'),
+  				),
+      );
+}
+
+function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element){
+  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '';
+
+  $widget = $element;
+  $widget['#delta'] = $delta;
+  switch ($instance['widget']['type']){
+  	case 'culoare_colorpicker':
+  $widget += array(
+        '#suffix' => '<div class="culoare-colorpicker"></div>',
+        '#attributes' => array('class' => array('edit-culoare-colorpicker')),
+        '#attached' => array(
+          'library' => array(
+            array('system', 'farbtastic'),
+          ),
+          'js' => array(drupal_get_path('module', 'arg_core') . '/arg_core_culoare.js'),
+        ),
+      );
+  $widget += array(
+        '#type' => 'textfield',
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+      );
+  break;
+  	case 'culoare_simplu':
+  		$widget += array(
+  				'#type' => 'textfield',
+  				'#default_value' => $value,
+  				'#size' => 7,
+  				'#maxlength' => 7,
+  		);
+  		break;
+  $element['rgb'] = $widget;
+  return $element;
+}
+}
+
+function arg_core_field_widget_error($element, $error, $form, &$form_state){
+  switch ($error['error']){
+    case 'culoare_invalid':
+      form_error($element, $error['message']);
+      break;
+  }
+}
+
+function _arg_core_campuri_fu(){
+  return array(
+      'logo' => array(
+          'field_name' => 'logo',
+          'type' => 'image',
+          ),
+      'mail' => array(
+          'field_name' => 'mail',
+          'type' => 'text',
+          'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+          ),
+      'telefon' => array(
+          'field_name' => 'telefon',
+          'type' => 'text',
+          'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+          ),
+      'adresa' => array(
+          'field_name' => 'adresa',
+          'type' => 'text',
+          ),
+      'culoare_fundal' => array(
+          'field_name' => 'culoare_fundal',
+          'type' => 'arg_core_rgb',
+          ),
+      'pseudonim' => array(
+          'field_name' => 'pseudonim',
+          'type' => 'text',
+           ),
+      'descriere' => array(
+          'field_name' => 'descriere',
+          'type' => 'text_long',
+          ),
+      'universitate_ref' => array(
+          'field_name' => 'universitate_ref',
+          'type' => 'text',
+          ),
+      );
+}
+
+function _arg_core_instante_fu(){
+  return array(
+      'logo' => array(
+          'field_name' => 'logo',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'image',
+          'label' => t('Logo'),
+          'widget' => array(
+              'type' => 'image_image',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'hidden',
+                  'type' => 'image',
+                  'weight' => 0,
+                  ),
+              'teaser' => array(
+                  'label' => 'hidden',
+                  'type' => 'image',
+                  'weight' => 0,
+                  ),
+              ),
+          ),
+      'mail' => array(
+          'field_name' => 'mail',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Email'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+      'telefon' => array(
+          'field_name' => 'telefon',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Numar de telefon'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text',
+                  'weight' => 2,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text',
+                  'weight' => 2,
+                  ),
+              ),
+          ),
+      'adresa' => array(
+          'field_name' => 'adresa',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Adresa'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'above',
+                  'type' => 'text',
+                  'weight' => 3,
+                  ),
+              'teaser' => array(
+                  'label' => 'inline',
+                  'type' => 'text',
+                  'weight' => 3,
+                  ),
+              ),
+          ),
+      'culoare_fundal' =>array(
+          'field_name' => 'culoare_fundal',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'arg_core_rgb',
+          'label' => t('Culoare fundal'),
+          'widget' => array(
+              'type' => 'culoare_colorpicker',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'hidden',
+                  'type' => 'arg_core_rgb',
+                  ),
+              'teaser' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  ),
+              ),
+          ),
+      'pseudonim' => array(
+          'field_name' => 'pseudonim',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Pseudonim'),
+          'widget' => array(
+              'type' => 'text_textfield'
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 5,
+                  ),
+              'teaser' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 5,
+                  ),
+              ),
+          ),
+      'descriere' => array(
+          'field_name' => 'descriere',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Descriere'),
+          'widget' => array(
+              'type' => 'text_long',
+              ),
+          'display' => array (
+              'default' => array(
+                'label' => 'above',
+                'type' => 'text_long',
+                'weight' => 10,
+                ),
+              'teaser' => array(
+                'label' => 'hidden',
+                 'type' => 'text_long',
+                 'weight' => 10,
+                ),
+
+              ),
+           ),
+      'universitate_ref' => array(
+          'field_name' => 'universitate_ref',
+          'entity_type' => 'node',
+          'bundle' => 'arg_core',
+          'type' => 'text',
+          'label' => t('Universitate'),
+          'widget' => array(
+              'type' => 'text_textfield',
+              ),
+          'display' => array(
+              'default' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 1,
+                  ),
+              'teaser' => array(
+                  'label' => 'hidden',
+                  'type' => 'hidden',
+                  'weight' => 1,
+                  ),
+              ),
+          ),
+      );
+}
+  
+  function _arg_core_campuri_b(){
   	
+  	return array(
+  			'universitate' => array(
+  					'field_name' => 'universitate',
+  					'type' => 'text',
+  			),
+  			'facultate' => array(
+  					'field_name' => 'facultate',
+  					'type' => 'text',
+  			),
+  			'facultate_partenera' => array(
+  					'field_name' => 'facultate_partenera',
+  					'type' => 'text',
+  			),
+  			'descriere_bursa' => array(
+  					'field_name' => 'descriere_bursa',
+  					'type' => 'text_long',
+  			),
+  			'conditii' => array(
+  					'field_name' => 'conditii',
+  					'type' => 'text_long',
+  			),
+  	
+  	);
+  	
+  }
+  
+  function _arg_core_instante_b(){
+  	
+  	return array(
+  			'universitate' => array(
+  					'field_name' => 'universitate',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Universitate'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'facultate' => array(
+  					'field_name' => 'facultate',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Facultate'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'facultate_partenera' => array(
+  					'field_name' => 'facultate_partenera',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Facultate Partenera'),
+  					'widget' => array(
+  							'type' => 'text_textfield',
+  					),
+  					'display' => array(
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  							'teaser' => array(
+  									'label' => 'inline',
+  									'type' => 'text',
+  									'weight' => 1,
+  							),
+  					),
+  			),
+  			'descriere_bursa' => array(
+  					'field_name' => 'descriere_bursa',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Descriere'),
+  					'widget' => array(
+  							'type' => 'text_long',
+  					),
+  					'display' => array (
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  							'teaser' => array(
+  									'label' => 'hidden',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  	
+  					),
+  			),
+  			'conditii' => array(
+  					'field_name' => 'conditii',
+  					'entity_type' => 'node',
+  					'bundle' => 'arg_core',
+  					'type' => 'text',
+  					'label' => t('Conditii de aplicare'),
+  					'widget' => array(
+  							'type' => 'text_long',
+  					),
+  					'display' => array (
+  							'default' => array(
+  									'label' => 'above',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  							'teaser' => array(
+  									'label' => 'hidden',
+  									'type' => 'text_long',
+  									'weight' => 10,
+  							),
+  	
+  					),
+  			),
+  			  	
+  	);
+  }
+  	
+  	function _arg_core_campuri_sesiune(){
+  		return array(
+  				'perioada' => array(
+  						'field_name' => 'perioada',
+  						'type' => 'datestamp',
+  						'setiings' => array(
+  								'repeat' => 0,
+  								'todate' =>'required',
+  								'granularity' => array(
+  										'year' => 'year',
+  										'month' => 'month',
+  										'day' => 'day',
+  										),
+  								'tz_handling' => 'none',
+  								),
+  				),
+  				'bursa' => array(
+  						'field_name' => 'bursa',
+  						'type' => 'text',
+  				),
+  				'stare' => array(
+  						'field_name' => 'stare',
+  						'type' => 'arg_core_rgb',
+  						),
+  			);
+  				
+  				
+  				
+  	}
+  	
+  	function _arg_core_instante_sesiune(){
   		
+  		return array(
+  				'perioada' => array(
+  						'field_name' => 'perioada',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'label' => t('Perioada de desfasurare a sesiunii curente'),
+  						'widget' => array(
+  								'type' => 'date_popup',
+  								'settings' => array(
+  										'input_format' => 'd/m/Y',
+  										'year_range' => '-10:+5',
+  										'increment' => 1,
+  										),
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'settings' => array(
+  												'fromto' => 'both',
+  												),
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'date_default',
+  										'format_type' => 'short',
+  										'settings' => array(
+  												'fromto' => 'both',
+  										),
+  										'weight' => 1,
+  								),
+  						),
+  				),
+  				'bursa' => array(
+  						'field_name' => 'bursa',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'type' => 'text',
+  						'label' => t('Bursa'),
+  						'widget' => array(
+  								'type' => 'text_textfield',
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  						),
+  				),
+  				'stare' =>array(
+  						'field_name' => 'stare',
+  						'entity_type' => 'node',
+  						'bundle' => 'arg_core',
+  						'type' => 'arg_core_rgb',
+  						'label' => t('Stare'),
+  						'widget' => array(
+  								'type' => 'culoare_colorpicker',
+  						),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'hidden',
+  										'type' => 'arg_core_rgb',
+  								),
+  								'teaser' => array(
+  										'label' => 'hidden',
+  										'type' => 'hidden',
+  								),
+  						),
+  				),
+  				
+  			);
+  	}
+  	
+  	function _arg_core_campuri_utilizator(){
+  		
+  		return array(
+  				'tip_cont' => array(
+  						'field_name' => 'tip_cont',
+  						'no_ui' => FALSE,
+  						'type' => 'list_integer',
+  						'settings' => array('allowed_values' => array(
+  								0 =>'student',
+  								1 =>'profesor',
+  								2 =>'companie'),
+  											 'allowed_values_function' => ''),
+  						
+  						),
+  				);
+  	}
+  	
+  	function _arg_core_instante_utilizator(){
+  		return array(
+  			'tip_cont' => array(
+  				'field_name' => 'tip_cont',
+  				'entity_type' => 'user',
+  				'bundle' => 'arg_core',
+  				'type' => 'text',
+  				'label' => t('Tipul contului'),
+  				'widget' => array(
+  						'type' => 'options_select',
+  				),
+  				'settings' => array(
+  						'user_register_form' => 1),
+  				'display' => array(
+  						'default' => array(
+  								'label' => 'above',
+  								'type' => 'list_default',
+  								'weight' => 1,
+  						),
+  						'teaser' => array(
+  								'label' => 'inline',
+  								'type' => 'list_default',
+  								'weight' => 1,
+  						),
+  				),
+  		   ),
+  	 );
+  		
+  	}
+
+  	function arg_core_ds_fields_info($entity_type) {
+  		$fields = array();
+  	
+  		$fields['butoane'] = array(
+  				'title' => t('Adauga Butoane'),
+  				'field_type' => DS_FIELD_TYPE_FUNCTION,
+  				'ui_limit' => array('article|full', '*|search_index', '*|*'),
+  				'function' => 'theme_arg_core_buton',
+  				'properties' => array(
+  						'formatters' => array(
+  								'node_title_nolink_h1' => t('H1 title'),
+  								'node_title_link_h1' => t('H1 title, linked to node'),
+  						),
+  						'settings' => array(
+  								'wrapper' => array(
+  										'type' => 'textfield',
+  										'description' => t('Eg: h1, h2, p'),
+  								),
+  								'link' => array(
+  										'type' => 'select',
+  										'options' => array('yes', 'no'),
+  								),
+  						),
+  						'default' => array(
+  								'wrapper' => 'h2',
+  								'link' => 0,
+  						),
+  						'code' => 'my code here',
+  						'use_token' => TRUE, // or FALSE,
+  						'block' => 'user-menu',
+  						'block_render' => DS_BLOCK_CONTENT,
+  				),
+  		);
+  	
+  		return array('node' => $fields);
+  	
+  	}
+  	
+  	
+  	function arg_core_theme($existing, $type, $theme, $path) {
+  		return array(
+  				'arg_core_buton' => array(
+  						'variables' => array(
+  								'node' => NULL,
+  						),
+  				),
+  	
+  		);
+  	}
+  	
+  	function theme_arg_core_buton($node){
+  	
+  		$output = '';
   		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle'],$node);
   	
   	

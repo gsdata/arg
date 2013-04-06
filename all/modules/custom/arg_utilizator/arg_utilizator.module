@@ -1,0 +1,38 @@
+<?php 
+
+function arg_utilizator_user_presave(&$edit, $account, $category){
+	dsm($edit);
+	dsm($account);
+	
+	$cont_nr = $edit['tip_cont']['und'][0]['value'];
+	
+	switch ($cont_nr) {
+		case 0:
+			$role = user_role_load_by_name('Student');
+			dsm($role);
+			$role_id = $role->rid;
+			dsm($role_id);
+			break;
+		
+		case 1:
+			$role = user_role_load_by_name('Profesor');
+			$role_id = $role->rid;
+			break;
+		
+		case 2:
+			$role = user_role_load_by_name('Companie');
+			$role_id = $role->rid;
+			break;
+		
+	}
+	
+	$new_user_roles = array(
+			DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+			$role_id => 'Student',
+	);
+	
+	$edit['roles'] = $new_user_roles;
+	//user_save($account);
+	
+	dsm($account);
+}

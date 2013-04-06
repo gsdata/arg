@@ -25,6 +25,7 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   }
 }
 
+
 function arg_facultate_arg_core_butoane($nid, $type,$node){
 	
 	if( $type =='arg_facultate'){
@@ -71,4 +72,18 @@ function arg_facultate_node_access($node, $op, $account){
 				return NODE_ACCESS_ALLOW;
 			}
 	}
+
+function arg_facultate_arg_core_butoane($nid, $type, $node){
+	
+	if( $type =='arg_facultate'){
+		$options['query'] = array(
+					'nid-facultate' => $node['entity']->nid,
+					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
+			);
+			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
+		
+		return $output;
+	}
+
+>>>>>>> refs/heads/alex
 }

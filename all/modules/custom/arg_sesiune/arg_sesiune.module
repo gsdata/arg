@@ -68,4 +68,27 @@ function arg_sesiune_node_access($node, $op, $account){
 				return NODE_ACCESS_ALLOW;
 			}
 	}
+
+}
+function arg_sesiune_form($node, $form_state){
+
+	return node_content_form($node, $form_state);
+
+}
+
+function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
+	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
+		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
+	}
+
+}
+
+function arg_sesiune_arg_core_butoane($nid,$type,$node){
+	if($type == 'arg_sesiune'){
+		$options['query'] = array(
+				'nid-sesiune' => $node['entity']->nid,
+			);
+			$output = l('Aplica','node/add/arg-aplicatie',$options);
+		return $output;
+	}
 }
