@@ -25,7 +25,6 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   }
 }
 
-
 function arg_facultate_arg_core_butoane($nid, $type,$node){
 	
 	if( $type =='arg_facultate'){
@@ -58,32 +57,25 @@ function arg_facultate_permission(){
 }
 
 function arg_facultate_node_access($node, $op, $account){
-	switch ($op){
-		case 'create':
-			if(user_access('adauga facultate',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'update':
-			if(user_access('update facultate',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'delete':
-			if(user_access('delete facultate',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
+	$type = is_string($node) ? $node : $node->type;
+	if($type == 'arg_facultate'){
+		switch ($op){
+			case 'create':
+				if(user_access('adauga facultate',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+			case 'update':
+				if(user_access('update facultate',$account)){
+					$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='edit'";
+					$result = db_query($query,array(':uid' => $account->uid, ':nid' => $node->nid))->fetchField();
+					if($result == $account->uid){
+						return NODE_ACCESS_ALLOW;
+					}
+				}
+			case 'delete':
+				if(user_access('delete facultate',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+		}
 	}
-
-function arg_facultate_arg_core_butoane($nid, $type, $node){
-	
-	if( $type =='arg_facultate'){
-		$options['query'] = array(
-					'nid-facultate' => $node['entity']->nid,
-					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
-			);
-			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
-		
-		return $output;
-	}
-
->>>>>>> refs/heads/alex
 }

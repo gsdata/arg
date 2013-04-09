@@ -58,18 +58,25 @@ function arg_bursa_permission(){
 }
 
 function arg_bursa_node_access($node, $op, $account){
-	switch ($op){
-		case 'create':
-			if(user_access('adauga bursa',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'update':
-			if(user_access('update bursa',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'delete':
-			if(user_access('delete bursa',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
+	$type = is_string($node) ? $node : $node->type;
+	if($type == 'arg_bursa'){
+		switch ($op){
+			case 'create':
+				if(user_access('adauga bursa',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+			case 'update':
+				if(user_access('update bursa',$account)){
+					$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='edit'";
+					$result = db_query($query,array(':uid' => $account->uid, ':nid' => $node->nid))->fetchField();
+					if($result == $account->uid){
+						return NODE_ACCESS_ALLOW;
+					}
+				}
+			case 'delete':
+				if(user_access('delete bursa',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+		}
 	}
 }

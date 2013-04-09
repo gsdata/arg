@@ -43,18 +43,25 @@ function arg_aplicatie_permission(){
 }
 
 function arg_aplicatie_node_access($node, $op, $account){
-	switch ($op){
-		case 'create':
-			if(user_access('adauga aplicatie',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'update':
-			if(user_access('update aplicatie',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
-		case 'delete':
-			if(user_access('delete aplicatie',$account)){
-				return NODE_ACCESS_ALLOW;
-			}
+	$type = is_string($node) ? $node : $node->type;
+	if($type == 'arg_aplicatie'){
+		switch ($op){
+			case 'create':
+				if(user_access('adauga aplicatie',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+			case 'update':
+				if(user_access('update aplicatie',$account)){
+					$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='edit'";
+					$result = db_query($query,array(':uid' => $account->uid, ':nid' => $node->nid))->fetchField();
+					if($result == $account->uid){
+						return NODE_ACCESS_ALLOW;
+					}
+				}
+			case 'delete':
+				if(user_access('delete aplicatie',$account)){
+					return NODE_ACCESS_ALLOW;
+				}
+		}
 	}
 }
