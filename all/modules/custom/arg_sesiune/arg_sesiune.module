@@ -23,10 +23,13 @@ function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
 	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
 		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
 	}
+	$form['stare']['und'][0]['rgb']['#default_value'] = '#00ff00';
 }
 
 function arg_sesiune_arg_core_butoane($nid,$type,$node){
-	if($type == 'arg_sesiune'){
+	$acum = time();
+    $ok = $acum > $node['entity']->data_inceput['und'][0]['value'] && $acum < $node['entity']->data_sfarsit['und'][0]['value'];
+	if($type == 'arg_sesiune' && $ok){
 		$options['query'] = array(
 				'nid-sesiune' => $node['entity']->nid,
 			);
@@ -70,25 +73,13 @@ function arg_sesiune_node_access($node, $op, $account){
 	}
 
 }
-function arg_sesiune_form($node, $form_state){
 
-	return node_content_form($node, $form_state);
-
-}
-
-function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
-	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
-		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
+function arg_sesiune_node_view($node, $view_mode){
+	$n = node_load($node->nid);
+	$acum = time();
+	if($acum < $n->data_inceput['und'][0]['value'] || $acum >$n->data_sfarsit['und'][0]['value'] ){
+		$n->stare['und'][0]['rgb'] = '#ff0000';
 	}
-
+	node_save($n);
 }
 
-function arg_sesiune_arg_core_butoane($nid,$type,$node){
-	if($type == 'arg_sesiune'){
-		$options['query'] = array(
-				'nid-sesiune' => $node['entity']->nid,
-			);
-			$output = l('Aplica','node/add/arg-aplicatie',$options);
-		return $output;
-	}
-}

@@ -28,7 +28,7 @@ function arg_utilizator_uninstall(){
 	drupal_uninstall_schema('arg_utilizator');
 }
 
-function arg_utilizator_schema(){
+/*function arg_utilizator_schema(){
 $schema['arg_utilizator_drepturi'] = array(
 		'description' => 'TODO: please describe this table!',
 		'fields' => array(
@@ -58,4 +58,4 @@ $schema['arg_utilizator_drepturi'] = array(
 );
 
 return $schema;
-}
+}*/
