@@ -55,7 +55,19 @@ function arg_bursa_arg_core_butoane($nid,$type,$node){
 		$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
 		return $output;
 	} */
-	
+}
+
+function arg_bursa_arg_core_referinta_univ($nid, $type, $node){
+
+	$nod_universitate = node_load($node['entity']->universitate['und'][0]['value']);
+	$output = l($nod_universitate->title, 'node/' . $nod_universitate->nid);
+	return $output;
+}
+
+function arg_bursa_arg_core_referinta_fac($nid, $type, $node){
+	$nod_facultate = node_load($node['entity']->facultate['und'][0]['value']);
+	$output = l($nod_facultate->title, 'node/' . $nod_facultate->nid);
+	return $output;
 }
 
 function arg_bursa_permission(){

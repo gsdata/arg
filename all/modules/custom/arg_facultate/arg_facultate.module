@@ -53,7 +53,13 @@ function arg_facultate_arg_core_butoane($nid, $type,$node){
 		
 		return $output;
 	} */
+}
 
+function arg_facultate_arg_core_referinta_univ($nid, $type, $node){
+	
+	$nod_universitate = node_load($node['entity']->universitate_ref['und'][0]['value']);
+	$output = l($nod_universitate->title, 'node/' . $nod_universitate->nid);
+	return $output;
 }
 
 function arg_facultate_permission(){
