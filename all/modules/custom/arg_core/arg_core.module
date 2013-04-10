@@ -379,13 +379,13 @@ function _arg_core_instante_fu(){
               ),
           'display' => array(
               'default' => array(
-                  'label' => 'hidden',
-                  'type' => 'hidden',
+                  'label' => 'above',
+                  'type' => 'text',
                   'weight' => 1,
                   ),
               'teaser' => array(
-                  'label' => 'hidden',
-                  'type' => 'hidden',
+                  'label' => 'inline',
+                  'type' => 'text',
                   'weight' => 1,
                   ),
               ),
@@ -542,11 +542,12 @@ function _arg_core_instante_fu(){
   	
   	function _arg_core_campuri_sesiune(){
   		return array(
-  				'data_inceput' => array(
-  						'field_name' => 'data_inceput',
+  				'perioada' => array(
+  						'field_name' => 'perioada',
   						'type' => 'datestamp',
-  						'setiings' => array(
+  						'settings' => array(
   								'repeat' => 0,
+  								'todate' => 'required',
   								'granularity' => array(
   										'year' => 'year',
   										'month' => 'month',
@@ -555,19 +556,7 @@ function _arg_core_instante_fu(){
   								'tz_handling' => 'none',
   								),
   				),
-  				'data_sfarsit' => array(
-  						'field_name' => 'data_sfarsit',
-  						'type' => 'datestamp',
-  						'setiings' => array(
-  								'repeat' => 0,
-  								'granularity' => array(
-  										'year' => 'year',
-  										'month' => 'month',
-  										'day' => 'day',
-  								),
-  								'tz_handling' => 'none',
-  						),
-  				),
+  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'type' => 'text',
@@ -585,15 +574,15 @@ function _arg_core_instante_fu(){
   	function _arg_core_instante_sesiune(){
   		
   		return array(
-  				'data_inceput' => array(
-  						'field_name' => 'data_inceput',
+  				'perioada' => array(
+  						'field_name' => 'perioada',
   						'entity_type' => 'node',
   						'bundle' => 'arg_core',
-  						'label' => t('Data de inceput a sesiunii curente'),
+  						'label' => t('Perioada de desfasurare a sesiunii curente'),
   						'widget' => array(
   								'type' => 'date_popup',
   								'settings' => array(
-  										'input_format' => 'd-m-Y',
+  										'input_format' => 'j M Y',
   										'year_range' => '-10:+5',
   										'increment' => 1,
   										),
@@ -603,44 +592,32 @@ function _arg_core_instante_fu(){
   										'label' => 'above',
   										'type' => 'date_default',
   										'format_type' => 'short',
+  										'settings' => array(
+  												'format_type' => 'short',
+  												'fromto' => 'both',
+  												),
   										'weight' => 1,
   								),
   								'teaser' => array(
   										'label' => 'inline',
   										'type' => 'date_default',
   										'format_type' => 'short',
+  										'settings' => array(
+  												'format_type' => 'short',
+  												'fromto' => 'both',
+  										),
   										'weight' => 1,
   								),
   						),
+  						'settings' => array(
+  								'default_value' => 'now',
+  								'default_value_code' => '',
+  								'default_value2' => 'same',
+  								'default_value_code2' => '',
+  								'user_register_form' => '',
+  								),
   				),
-  				'data_sfarsit' => array(
-  						'field_name' => 'data_sfarsit',
-  						'entity_type' => 'node',
-  						'bundle' => 'arg_core',
-  						'label' => t('Data de sfarsit a sesiunii curente'),
-  						'widget' => array(
-  								'type' => 'date_popup',
-  								'settings' => array(
-  										'input_format' => 'd-m-Y',
-  										'year_range' => '-10:+5',
-  										'increment' => 1,
-  								),
-  						),
-  						'display' => array(
-  								'default' => array(
-  										'label' => 'above',
-  										'type' => 'date_default',
-  										'format_type' => 'short',
-  										'weight' => 1,
-  								),
-  								'teaser' => array(
-  										'label' => 'inline',
-  										'type' => 'date_default',
-  										'format_type' => 'short',
-  										'weight' => 1,
-  								),
-  						),
-  				),
+  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'entity_type' => 'node',
@@ -696,6 +673,66 @@ function _arg_core_instante_fu(){
   				'field_type' => DS_FIELD_TYPE_FUNCTION,
   				'ui_limit' => array('article|full', '*|search_index', '*|*'),
   				'function' => 'theme_arg_core_buton',
+  				'properties' => array(
+  						'formatters' => array(
+  								'node_title_nolink_h1' => t('H1 title'),
+  								'node_title_link_h1' => t('H1 title, linked to node'),
+  						),
+  						'settings' => array(
+  								'wrapper' => array(
+  										'type' => 'textfield',
+  										'description' => t('Eg: h1, h2, p'),
+  								),
+  								'link' => array(
+  										'type' => 'select',
+  										'options' => array('yes', 'no'),
+  								),
+  						),
+  						'default' => array(
+  								'wrapper' => 'h2',
+  								'link' => 0,
+  						),
+  						'code' => 'my code here',
+  						'use_token' => TRUE, // or FALSE,
+  						'block' => 'user-menu',
+  						'block_render' => DS_BLOCK_CONTENT,
+  				),
+  		);
+  		$fields['referinta_univ'] = array(
+  				'title' => t('Adauga Referinta universitate'),
+  				'field_type' => DS_FIELD_TYPE_FUNCTION,
+  				'ui_limit' => array('article|full', '*|search_index', '*|*'),
+  				'function' => 'theme_arg_core_ref_univ',
+  				'properties' => array(
+  						'formatters' => array(
+  								'node_title_nolink_h1' => t('H1 title'),
+  								'node_title_link_h1' => t('H1 title, linked to node'),
+  						),
+  						'settings' => array(
+  								'wrapper' => array(
+  										'type' => 'textfield',
+  										'description' => t('Eg: h1, h2, p'),
+  								),
+  								'link' => array(
+  										'type' => 'select',
+  										'options' => array('yes', 'no'),
+  								),
+  						),
+  						'default' => array(
+  								'wrapper' => 'h2',
+  								'link' => 0,
+  						),
+  						'code' => 'my code here',
+  						'use_token' => TRUE, // or FALSE,
+  						'block' => 'user-menu',
+  						'block_render' => DS_BLOCK_CONTENT,
+  				),
+  		);
+  		$fields['referinta_fac'] = array(
+  				'title' => t('Adauga Referinta facultate'),
+  				'field_type' => DS_FIELD_TYPE_FUNCTION,
+  				'ui_limit' => array('article|full', '*|search_index', '*|*'),
+  				'function' => 'theme_arg_core_ref_fac',
   				'properties' => array(
   						'formatters' => array(
   								'node_title_nolink_h1' => t('H1 title'),
@@ -783,6 +820,16 @@ function _arg_core_instante_fu(){
   								'node' => NULL,
   						),
   				),
+  				'arg_core_ref_fac' => array(
+  						'variables' => array(
+  								'node' => NULL,
+  						),
+  				),
+  				'arg_core_ref_univ' => array(
+  						'variables' => array(
+  								'node' => NULL,
+  						),
+  				),
   				 
   		);
   	}
@@ -801,6 +848,36 @@ function _arg_core_instante_fu(){
   		 
   		return $output;
   	
+  	}
+  	
+  	function theme_arg_core_ref_univ($node){
+  		 
+  		$output = '';
+  		$rezultate = module_invoke_all('arg_core_referinta_univ', $node['entity']->nid, $node['bundle'],$node);
+  		 
+  		 
+  		foreach ($rezultate as $result) {
+  			$output .= $result . '<br>';
+  				
+  		}
+  			
+  		return $output;
+  		 
+  	}
+  	
+  	function theme_arg_core_ref_fac($node){
+  			
+  		$output = '';
+  		$rezultate = module_invoke_all('arg_core_referinta_fac', $node['entity']->nid, $node['bundle'],$node);
+  			
+  			
+  		foreach ($rezultate as $result) {
+  			$output .= $result . '<br>';
+  	
+  		}
+  			
+  		return $output;
+  			
   	}
 
 function _arg_core_campuri_aplicatie(){

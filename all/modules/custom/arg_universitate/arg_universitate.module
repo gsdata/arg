@@ -15,7 +15,6 @@ function arg_universitate_node_info() {
 }
 function arg_universitate_form($node, $form_state){
 
-
 	return node_content_form($node, $form_state);
 	
 }
@@ -27,6 +26,7 @@ function arg_universitate_arg_core_butoane($nid,$type,$node){
 		$output = l('Adauga Facultate', 'node/add/arg-facultate', $options);
 		return $output;
 	}
+	
 }
 
 function arg_universitate_permission(){
