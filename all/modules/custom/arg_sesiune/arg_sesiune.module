@@ -25,34 +25,35 @@ function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
 	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
 		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
 	}
+	$form['stare']['und'][0]['rgb']['#default_value'] = '#00ff00';
+	$form['stare']['#access'] = false;
+	$form['bursa']['#access'] = false;
+	
 }
 
 function arg_sesiune_arg_core_butoane($nid,$type,$node){
-	/* if($type == 'arg_sesiune'){
-		if(user_access('adauga aplicatie')){
-			global $user;
-			$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='create'";
-			$result = db_query($query,array(':uid' => $user->uid, ':nid' => $nid))->fetchField();
-			if($result == $user->uid || $user->roles[3] == 'administrator'){
-				$options['query'] = array(
-					'nid-sesiune' => $node['entity']->nid,
-				);
-				$output = l('Aplica','node/add/arg-aplicatie',$options);
-				return $output;
-			}
-		}
-	} */
-	
-	if($type == 'arg_sesiune'){
+
+	//dsm($node);
+	$acum = time();
+    $ok = $acum > $node['entity']->perioada['und'][0]['value'] && $acum < $node['entity']->perioada['und'][0]['value2'];
+	if($type == 'arg_sesiune' && $ok){
 		if(user_access('adauga aplicatie')){
 			$options['query'] = array(
 					'nid-sesiune' => $node['entity']->nid,
 				);
 				$output = l('Aplica','node/add/arg-aplicatie',$options);
 			return $output;
+			}
 		}
-	}
 
+}
+	
+
+function arg_sesiune_arg_core_referinta_univ($nid, $type, $node){
+
+	$nod_bursa = node_load($node['entity']->bursa['und'][0]['value']);
+	$output = l($nod_bursa->title, 'node/' . $nod_bursa->nid);
+	return $output;
 }
 
 function arg_sesiune_permission(){
@@ -73,7 +74,7 @@ function arg_sesiune_permission(){
 }
 
 function arg_sesiune_node_access($node, $op, $account){
-	$type = is_string($node) ? $node : $node->type;
+$type = is_string($node) ? $node : $node->type;
 	if($type == 'arg_sesiune'){
 		switch ($op){
 			case 'create':
@@ -104,4 +105,16 @@ function arg_sesiune_node_access($node, $op, $account){
 				}
 		}
 	}
+
 }
+
+function arg_sesiune_node_view($node, $view_mode){
+	
+	$n = node_load($node->nid);
+	$acum = time();
+	if($acum < $n->perioada['und'][0]['value'] || $acum >$n->perioada['und'][0]['value2'] ){
+		$n->stare['und'][0]['rgb'] = '#ff0000';
+	}
+	node_save($n);
+}
+
