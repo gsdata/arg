@@ -20,6 +20,9 @@ function arg_bursa_form($node, $form_state){
 }
 
 function arg_bursa_form_alter(&$form, &$form_state,$form_id){
+	$form['facultate']['#access']=false;
+	$form['universitate']['#access']=false;
+	
 	if($_GET['nid-facultate'] && $form_id == 'arg_bursa_node_form'){
 		$form['facultate']['und'][0]['value']['#default_value'] = $_GET['nid-facultate'];
 	}
@@ -31,12 +34,27 @@ function arg_bursa_form_alter(&$form, &$form_state,$form_id){
 
 function arg_bursa_arg_core_butoane($nid,$type,$node){
 	if($type == 'arg_bursa'){
+		if(user_access('adauga sesiune')){
+			global $user;
+			$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='create'";
+			$result = db_query($query,array(':uid' => $user->uid, ':nid' => $nid))->fetchField();
+			if($result == $user->uid || $user->roles[3] == 'administrator'){
+				$options['query'] = array(
+					'nid-bursa' => $node['entity']->nid,
+				);
+				$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
+				return $output;
+			}
+		}
+	}
+	
+	/* if($type == 'arg_bursa'){
 		$options['query'] = array(
 				'nid-bursa' => $node['entity']->nid,
 		);
 		$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
 		return $output;
-	}
+	} */
 	
 }
 
@@ -63,7 +81,17 @@ function arg_bursa_node_access($node, $op, $account){
 		switch ($op){
 			case 'create':
 				if(user_access('adauga bursa',$account)){
-					return NODE_ACCESS_ALLOW;
+					//Dreptul de a adauga o bursa depinde de facultatea la care va fi creata
+					if($_GET['nid-facultate']){
+						$nid = $_GET['nid-facultate'];
+					} else {
+						$nid = -1;
+					}
+					$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='create'";
+					$result = db_query($query,array(':uid' => $account->uid, ':nid' => $nid))->fetchField();
+					if($result == $account->uid){
+						return NODE_ACCESS_ALLOW;
+					}
 				}
 			case 'update':
 				if(user_access('update bursa',$account)){

@@ -20,18 +20,37 @@ function arg_sesiune_form($node, $form_state){
 }
 
 function arg_sesiune_form_alter(&$form, &$form_state,$form_id){
+	$form['bursa']['#access']=false;
+	
 	if($_GET['nid-bursa'] && $form_id == 'arg_sesiune_node_form'){
 		$form['bursa']['und'][0]['value']['#default_value'] = $_GET['nid-bursa'];
 	}
 }
 
 function arg_sesiune_arg_core_butoane($nid,$type,$node){
+	/* if($type == 'arg_sesiune'){
+		if(user_access('adauga aplicatie')){
+			global $user;
+			$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='create'";
+			$result = db_query($query,array(':uid' => $user->uid, ':nid' => $nid))->fetchField();
+			if($result == $user->uid || $user->roles[3] == 'administrator'){
+				$options['query'] = array(
+					'nid-sesiune' => $node['entity']->nid,
+				);
+				$output = l('Aplica','node/add/arg-aplicatie',$options);
+				return $output;
+			}
+		}
+	} */
+	
 	if($type == 'arg_sesiune'){
-		$options['query'] = array(
-				'nid-sesiune' => $node['entity']->nid,
-			);
-			$output = l('Aplica','node/add/arg-aplicatie',$options);
-		return $output;
+		if(user_access('adauga aplicatie')){
+			$options['query'] = array(
+					'nid-sesiune' => $node['entity']->nid,
+				);
+				$output = l('Aplica','node/add/arg-aplicatie',$options);
+			return $output;
+		}
 	}
 
 }
@@ -59,7 +78,17 @@ function arg_sesiune_node_access($node, $op, $account){
 		switch ($op){
 			case 'create':
 				if(user_access('adauga sesiune',$account)){
-					return NODE_ACCESS_ALLOW;
+					//Dreptul de a deschide o sesiune depinde de bursa la care se deschide.
+					if($_GET['nid-bursa']){
+						$nid = $_GET['nid-bursa'];
+					} else {
+						$nid = -1;
+					}
+					$query = "SELECT uid FROM {arg_utilizator_drepturi} WHERE uid=:uid AND nid=:nid AND drept='create'";
+					$result = db_query($query,array(':uid' => $account->uid, ':nid' => $nid))->fetchField();
+					if($result == $account->uid){
+						return NODE_ACCESS_ALLOW;
+					}
 				}
 			case 'update':
 				if(user_access('update sesiune',$account)){
