@@ -33,6 +33,7 @@ function arg_universitate_arg_core_butoane($nid,$type,$node){
 			}
 		}
 	}
+	
 }
 
 function arg_universitate_permission(){
@@ -53,6 +54,7 @@ function arg_universitate_permission(){
 }
 
 function arg_universitate_node_access($node, $op, $account){
+
 	$type = is_string($node) ? $node : $node->type;
 	if($type == 'arg_universitate'){
 		switch ($op){
@@ -76,3 +78,4 @@ function arg_universitate_node_access($node, $op, $account){
 		}
 	}
 }
+

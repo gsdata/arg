@@ -20,16 +20,19 @@ function arg_bursa_form($node, $form_state){
 }
 
 function arg_bursa_form_alter(&$form, &$form_state,$form_id){
+
 	$form['facultate']['#access']=false;
 	$form['universitate']['#access']=false;
 	
 	if($_GET['nid-facultate'] && $form_id == 'arg_bursa_node_form'){
 		$form['facultate']['und'][0]['value']['#default_value'] = $_GET['nid-facultate'];
+		
 	}
 	if($_GET['nid-universitate'] && $form_id == 'arg_bursa_node_form'){
 		$form['universitate']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
 		
 	}
+
 }
 
 function arg_bursa_arg_core_butoane($nid,$type,$node){
@@ -47,14 +50,6 @@ function arg_bursa_arg_core_butoane($nid,$type,$node){
 			}
 		}
 	}
-	
-	/* if($type == 'arg_bursa'){
-		$options['query'] = array(
-				'nid-bursa' => $node['entity']->nid,
-		);
-		$output = l('Deschide sesiune', 'node/add/arg-sesiune',$options);
-		return $output;
-	} */
 }
 
 function arg_bursa_arg_core_referinta_univ($nid, $type, $node){

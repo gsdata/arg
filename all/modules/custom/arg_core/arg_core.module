@@ -60,13 +60,15 @@ function arg_core_field_formatter_info(){
           'label' => t('Color Picker'),
           'field types' => array('arg_core_rgb'),
           ),
+
       );
 }
 
 function arg_core_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display){
   $element = array();
   $element['#label_display'] = 'hidden';
-      foreach ($items as $delta => $item) {
+  
+  foreach ($items as $delta => $item) {
         $element[$delta] = array(
           '#type' => 'html_tag',
           '#tag' => 'p',
@@ -80,7 +82,7 @@ function arg_core_field_formatter_view($entity_type, $entity, $field, $instance,
           ),
         );
       }
-      return $element;      
+      return $element;
 }
 
 function arg_core_field_widget_info(){
@@ -526,7 +528,6 @@ function _arg_core_instante_fu(){
   								'tz_handling' => 'none',
   								),
   				),
-  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'type' => 'text',
@@ -587,7 +588,6 @@ function _arg_core_instante_fu(){
   								'user_register_form' => '',
   								),
   				),
-  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'entity_type' => 'node',
@@ -634,7 +634,6 @@ function _arg_core_instante_fu(){
   			);
   	}
   	
-
   	function arg_core_ds_fields_info($entity_type) {
   		$fields = array();
   	
@@ -733,6 +732,7 @@ function _arg_core_instante_fu(){
   	
   	}
   	
+
  	
   	function _arg_core_campuri_utilizator(){
   		
@@ -805,9 +805,10 @@ function _arg_core_instante_fu(){
   	}
   	 
   
+
   	function theme_arg_core_buton($node){
   	
-  		$output = '';
+  		
   		$rezultate = module_invoke_all('arg_core_butoane', $node['entity']->nid, $node['bundle'],$node);
   	
   	
@@ -847,7 +848,6 @@ function _arg_core_instante_fu(){
   		}
   			
   		return $output;
-  			
   	}
 
 function _arg_core_campuri_aplicatie(){

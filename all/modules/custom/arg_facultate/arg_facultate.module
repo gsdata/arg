@@ -14,7 +14,7 @@ function arg_facultate_node_info() {
 
 }
 function arg_facultate_form($node, $form_state){
-  
+ 
   return node_content_form($node, $form_state);
 
 }
@@ -23,7 +23,8 @@ function arg_facultate_form_alter(&$form, &$form_state,$form_id){
   $form['universitate_ref']['#access']=false;
   
   if($_GET['nid-universitate'] && $form_id == 'arg_facultate_node_form'){
-  	$form['universitate_ref']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
+	 $form['universitate_ref']['und'][0]['value']['#default_value'] = $_GET['nid-universitate'];
+	 
   }
 }
 
@@ -44,15 +45,12 @@ function arg_facultate_arg_core_butoane($nid, $type,$node){
 			}
 		}
 	}
-	/* if( $type =='arg_facultate'){
-		$options['query'] = array(
-					'nid-facultate' => $node['entity']->nid,
-					'nid-universitate' => $node['entity']->universitate_ref['und'][0]['value'],
-			);
-			$output = l('Adauga bursa', 'node/add/arg-bursa', $options);
-		
-		return $output;
-	} */
+
+function arg_facultate_arg_core_referinta_univ($nid, $type, $node){
+	
+	$nod_universitate = node_load($node['entity']->universitate_ref['und'][0]['value']);
+	$output = l($nod_universitate->title, 'node/' . $nod_universitate->nid);
+	return $output;
 }
 
 function arg_facultate_arg_core_referinta_univ($nid, $type, $node){
@@ -61,6 +59,7 @@ function arg_facultate_arg_core_referinta_univ($nid, $type, $node){
 	$output = l($nod_universitate->title, 'node/' . $nod_universitate->nid);
 	return $output;
 }
+
 
 function arg_facultate_permission(){
 	return array(
