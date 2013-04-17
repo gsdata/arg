@@ -20,18 +20,208 @@ function arg_utilizator_user_presave(&$edit, $account, $category){
 			break;
 		
 	}
-	dsm($role);
-//	dsm($role_id);
+
 	$new_user_roles = array(
 			DRUPAL_AUTHENTICATED_RID => 'authenticated user',
 			$role_id => $role->name,
 	);
-//	dsm($account);
-//	dsm($edit);
-//	dsm($category);
-//	dsm($user);
+
 	
 	$edit['roles'] = $new_user_roles;
-	//user_save($account);
-	//test
+}
+
+/*function arg_utilizator_form_alter(&$form, &$form_state, $form_id){
+	if($form_id == 'user_register_form'){
+		$form['univ'] = array(
+				'#title' => t('Universitatea dumneavoastra'),
+				'#type' => 'textfield',
+				'#autocomplete_path' => 'arg/autocomplete', 
+				);
+		$form['fac'] = array(
+				'#title' => t('Facultatea dumneavoastra'),
+				'#type' => 'textfield',
+				'#autocomplete_path' => 'arg/autocomplete',
+		);
+		
+	}
+}*/
+
+
+function arg_utilizator_menu(){
+	$items['arg/autocomplete/univ'] = array(
+			'page callback' => '_arg_utilizator_autocomplete_univ',
+		    'access callback' => TRUE,
+			'type' => MENU_CALLBACK,
+			);
+	$items['arg/autocomplete/fac'] = array(
+			'page callback' => '_arg_utilizator_autocomplete_fac',
+			'access callback' => TRUE,
+			'type' => MENU_CALLBACK,
+	);
+
+	return $items;
+}
+
+function _arg_utilizator_autocomplete_univ($string = ''){
+	$matches = array();
+	
+	$sql = "SELECT title,type,nid FROM {node} n
+			WHERE n.title LIKE :titlu AND n.type = :tip";
+	$rezultate = db_query($sql, array(':titlu' => '%' . $string . '%',
+									  ':tip' => 'arg_universitate',
+			));
+	
+	foreach($rezultate as $row){
+		$matches[$row->title] = $row->title;
+		$_SESSION['nid_univ'] = $row->nid;
+	} 
+	/*$sql2 = "SELECT nid FROM {node} n
+					WHERE n.title = :titlee";
+	$_SESSION['nid_univ'] = db_query($sql2,array(':titlee' => $string))->fetchField();*/
+	drupal_json_output($matches);
+}
+
+function _arg_utilizator_autocomplete_fac($string = ''){
+	$matches = array();
+	
+	$sql = "SELECT entity_id FROM {field_data_universitate_ref} u
+			WHERE u.universitate_ref_value = :nid_univ";
+	$rezultate = db_query($sql, array(':nid_univ' => $_SESSION['nid_univ'],
+	));
+    //echo $_SESSION['nid_univ'];
+	foreach($rezultate as $row){
+	/*	$sql2 = "SELECT title FROM {node} n
+				WHERE n.nid = :nid_u ";
+		$rez = db_query($sql2, array(':nid_u', $row->entity_id));*/
+		$n = node_load($row->entity_id);
+		$matches[$n->title] = $n->title;
+	}
+
+	drupal_json_output($matches);
+}
+
+function arg_utilizator_form_user_register_form_alter(&$form, &$form_state){
+	
+	if(!empty($form_state['step']) && $form_state['step'] == 2){
+		
+		arg_utilizator_register_alter_pag_doi($form, $form_state);
+	}
+	else {
+		
+		arg_utilizator_register_alter_pag_unu($form, $form_state);
+	}
+}
+
+function arg_utilizator_register_alter_pag_unu(&$form, &$form_state){
+	
+	$form_state['step'] = 1;
+	$form['step'] = array(
+			'#markup' => '<h3>' . t('Pasul 1 din 2: Informatii cont') . '</h3>',
+			'#weight' => -10,
+			);
+	$form['univ']['#access'] = false;
+	$form['fac']['#access'] = false;
+	
+	$form['account']['name']['#default_value'] = !empty($form_state['values']['name']) ? $form_state['values']['name'] : '';
+	$form['account']['mail']['#default_value'] = !empty($form_state['values']['mail']) ? $form_state['values']['mail'] : '';
+	
+	$form['actions']['next'] = array(
+			'#type' => 'submit',
+			'#value' => t('Pasul Urmator >>'),
+			'#submit' => array('arg_utilizator_register_next'),
+			);
+	unset($form['actions']['submit']);
+}
+
+function arg_utilizator_register_alter_pag_doi(&$form, &$form_state){
+	
+	
+	$form['step'] = array(
+			'#markup' => '<h3>' . t('Pasul 2 din 2: Informatii suplimentare') . '</h3>',
+			'#weight' => -10,
+			);
+	switch($form_state['values']['tip_cont']['und'][0]['value']){
+		case 0:
+			$form['univ'] = array(
+				'#title' => t('Universitatea dumneavoastra'),
+				'#type' => 'textfield',
+				'#autocomplete_path' => 'arg/autocomplete/univ',
+				'#access' => true,
+				'#ajax' => array(
+						'callback' => '_ia_nid_universitate',
+						'wrapper' => 'facultatea-mea',
+						'effect' => 'blur',
+						'event' => 'mouseout',
+					),
+				);
+			
+			
+			$form['fac'] = array(
+				'#title' => t('Facultatea dumneavoastra'),
+				'#type' => 'textfield',
+				'#autocomplete_path' => 'arg/autocomplete/fac',
+				'#access' => true,
+				'#prefix' => '<div id=facultatea-mea>',
+				'#suffix' => '</div>',
+				);
+			break;
+		case 1:
+			$form['univ'] = array(
+				'#title' => t('Universitatea dumneavoastra'),
+				'#type' => 'textfield',
+				'#autocomplete_path' => 'arg/autocomplete/univ',
+				'#access' => true,
+				);
+			$form['fac']['#access'] = false;
+			break;
+		case 2:
+			$form['univ']['#access'] = false;
+			$form['fac']['#access'] = false;
+			break;
+	}
+	$form['account']['name']['#access'] = false;
+	$form['account']['mail']['#access'] = false;
+	$form['account']['pass']['#access'] = false;
+	$form['account']['pass']['#required'] = false;
+	$form['tip_cont']['#access'] = false;
+	
+	$form['account']['name']['#default_value'] = !empty($form_state['values']['name']) ? $form_state['values']['name'] : '';
+	$form['account']['mail']['#default_value'] = !empty($form_state['values']['mail']) ? $form_state['values']['mail'] : '';
+	$form['account']['pass']['#value']['pass1'] = !empty($form_state['values']['pass']) ? $form_state['values']['pass'] : '';
+	$form['account']['pass']['#value']['pass2'] = !empty($form_state['values']['pass']) ? $form_state['values']['pass'] : '';
+	$form['tip_cont']['und']['#default_value'] = !empty($form_state['values']['tip_cont']['und'][0]['value']) ? $form_state['values']['tip_cont']['und'][0]['value'] : NULL;
+	$form['actions']['back'] = array(
+			'#type' => 'submit',
+			'#value' => t('<< Pasul Precedent'),
+			'#submit' => array('arg_utilizator_register_back'),
+			'#limit_validation_errors' => array(),
+			);
+	$form['actions']['submit']['#weight'] = 100;
+	$form['#submit'][] = 'user_register_submit';
+}
+
+function arg_utilizator_register_next($form, &$form_state){
+	
+	$form_state['page_values'][1] = $form_state['values'];
+	if(!empty($form_state['page_values'][2])){
+		
+		$form_state['values'] = $form_state['page_values'][2];
+	}
+	$form_state['step'] = 2;
+	$form_state['rebuild'] = true;
+}
+
+function arg_utilizator_register_back($form, &$form_state){
+	
+	$form_state['values'] = $form_state['page_values'][1];
+	$form_state['step'] = 1;
+	$form_state['rebuild'] = true;
+}
+
+function _ia_nid_universitate($form,$form_state){
+	dsm($form);
+	dsm($form_state);
+	echo "am ajuns aici!!";
+	$form['fac']['und'][0]['value']['#default_value'] = 'bau';
+	return $form['fac'];
 }

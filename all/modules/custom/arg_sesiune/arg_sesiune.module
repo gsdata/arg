@@ -118,12 +118,3 @@ function arg_sesiune_node_view($node, $view_mode){
 	node_save($n);
 }
 
-function arg_sesiune_node_insert($node){
-	
-	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'edit')");
-}
-
-function arg_sesiune_node_delete($node){
-	
-	db_query("DELETE FROM {arg_utilizator_drepturi} WHERE nid=$node->nid");
-}

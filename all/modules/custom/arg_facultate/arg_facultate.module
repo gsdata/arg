@@ -1,4 +1,5 @@
 <?php
+
 function arg_facultate_node_info() {
   return array(
       'arg_facultate' => array(
@@ -15,6 +16,7 @@ function arg_facultate_node_info() {
 function arg_facultate_form($node, $form_state){
  
   return node_content_form($node, $form_state);
+
 }
 
 function arg_facultate_form_alter(&$form, &$form_state,$form_id){
@@ -104,57 +106,4 @@ function arg_facultate_node_access($node, $op, $account){
 				}
 		}
 	}
-}
-
-function arg_facultate_node_insert($node){
-	
-	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'create')");
-	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'edit')");
-}
-
-function arg_facultate_node_delete($node){
-	
-	db_query("DELETE FROM {arg_utilizator_drepturi} WHERE nid=$node->nid");
-}
-
-function arg_facultate_load($nodes){
-	$nod = array_shift(array_values($nodes));
-	$nid_referinta = db_query("SELECT universitate_ref_value FROM {field_data_universitate_ref} WHERE entity_id = $nod->nid")->fetchField();
-	$result = db_query("SELECT title FROM {node} WHERE nid = $nid_referinta")->fetchField();
-	$nodes[$nod->nid]->universitate_nume = $result;
-}
-
-function arg_facultate_token_info() {
-  $info['tokens']['node']['token_oras_universitate'] = array(
-    'name' => t('Token Oras'),
-    'description' => t('Orasul Universitatii'),
-  );
-  $info['tokens']['node']['token_pseudonim_universitate'] = array(
-    'name' => t('Token Pseudonim Universitate'),
-    'description' => t('Pseudonimul universitatii'),
-  );
-  return $info;
-}
-
-function arg_facultate_tokens($type, $tokens, array $data = array(), array $options = array()) {
-    $replacements = array();
-    $sanitize = !empty($options['sanitize']);
-    if ($type == 'node' && !empty($data['node'])) {
-    	$node = $data['node'];
-        foreach ($tokens as $name => $original) {
-              switch($name){
-              	case 'token_oras_universitate':
-              		$nid_referinta = db_query("SELECT universitate_ref_value FROM {field_data_universitate_ref} WHERE entity_id = $node->nid")->fetchField();
-              		$oras_universitate = db_query("SELECT field_oras_value FROM {field_data_field_oras} WHERE entity_id = $nid_referinta")->fetchField();
-              		$replacements[$original] = $oras_universitate;
-              		break;
-              	case 'token_pseudonim_universitate':
-              		$nid_referinta = db_query("SELECT universitate_ref_value FROM {field_data_universitate_ref} WHERE entity_id = $node->nid")->fetchField();
-              		$pseudonim_universitate = db_query("SELECT pseudonim_value FROM {field_data_pseudonim} WHERE entity_id = $nid_referinta")->fetchField();
-              		$replacements[$original] = $pseudonim_universitate;
-              		break;
-              }
-        }
-    }
-    return $replacements;
 }

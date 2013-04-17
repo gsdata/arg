@@ -75,8 +75,7 @@ function arg_core_field_formatter_view($entity_type, $entity, $field, $instance,
           '#attached' => array(
             'css' => array(
               array(
-                //'data' => '.region-sidebar-first, .region-sidebar-second { background-color:' . $item['rgb'] . ';}',
-            	'data' => '.custom_header { background-color:' . $item['rgb'] . ';}',
+                'data' => '.custom_header { background-color:' . $item['rgb'] . ';}',
                 'type' => 'inline',
               ),
             ),
@@ -754,6 +753,15 @@ function _arg_core_instante_fu(){
   							'allowed_values_function' => ''),
   						
   						),
+  				'univ' => array(
+  						'field_name' => 'univ',
+  						'type' => 'text',  						
+  						),
+  				'fac' => array(
+  						'field_name' => 'fac',
+  						'type' => 'text',
+  				),
+  				
   				);
   	}
   	
@@ -783,7 +791,57 @@ function _arg_core_instante_fu(){
   						),
   				),
   		   ),
-  	 );
+  		   'univ' => array(
+  						'field_name' => 'univ',
+  						'entity_type' => 'user',
+  						'bundle' => 'arg_core',
+  						'type' => 'text',
+  						'label' => t('Universitatea dumneavoastra'),
+  						'widget' => array(
+  								'type' => 'text_textfield',
+  						),
+  		   				'settings' => array(
+  		   						'user_register_form' => 1),
+  		   				'display' => array(
+  		   						'default' => array(
+  		   								'label' => 'above',
+  		   								'type' => 'text',
+  		   								'weight' => 1,
+  		   								),
+  		   						'teaser' => array(
+  		   								'label' => 'inline',
+  		   								'type' => 'text',
+  		   								'weight' => 1,
+  		   						),
+  		   				),
+  						
+  				),
+  			'fac' => array(
+  						'field_name' => 'fac',
+  						'entity_type' => 'user',
+  						'bundle' => 'arg_core',
+  						'type' => 'text',
+  						'label' => t('Facultatea dumneavoastra'),
+  						'widget' => array(
+  								'type' => 'text_textfield',
+  						),
+  						'settings' => array(
+  								'user_register_form' => 1),
+  						'display' => array(
+  								'default' => array(
+  										'label' => 'above',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  								'teaser' => array(
+  										'label' => 'inline',
+  										'type' => 'text',
+  										'weight' => 1,
+  								),
+  						),
+  						
+  				),
+  	 	);
   		
   	}
 

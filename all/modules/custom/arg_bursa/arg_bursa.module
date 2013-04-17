@@ -56,6 +56,7 @@ function arg_bursa_arg_core_butoane($nid,$type,$node){
 }
 
 function arg_bursa_arg_core_referinta_univ($nid, $type, $node){
+
 	$nod_universitate = node_load($node['entity']->universitate['und'][0]['value']);
 	$output = l($nod_universitate->title, 'node/' . $nod_universitate->nid);
 	return $output;
@@ -116,15 +117,4 @@ function arg_bursa_node_access($node, $op, $account){
 				}
 		}
 	}
-}
-
-function arg_bursa_node_insert($node){
-	
-	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'create')");
-	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'edit')");
-}
-
-function arg_bursa_node_delete($node){
-	
-	db_query("DELETE FROM {arg_utilizator_drepturi} WHERE nid=$node->nid");
 }
