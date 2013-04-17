@@ -75,7 +75,8 @@ function arg_core_field_formatter_view($entity_type, $entity, $field, $instance,
           '#attached' => array(
             'css' => array(
               array(
-                'data' => '.region-sidebar-first, .region-sidebar-second { background-color:' . $item['rgb'] . ';}',
+                //'data' => '.region-sidebar-first, .region-sidebar-second { background-color:' . $item['rgb'] . ';}',
+            	'data' => '.custom_header { background-color:' . $item['rgb'] . ';}',
                 'type' => 'inline',
               ),
             ),
@@ -83,6 +84,7 @@ function arg_core_field_formatter_view($entity_type, $entity, $field, $instance,
         );
       }
       return $element;
+      
 }
 
 function arg_core_field_widget_info(){
@@ -135,7 +137,7 @@ function arg_core_field_widget_form(&$form, &$form_state, $field, $instance, $la
   		return $element;
   		break;
   
-  }
+}
 }
 
 function arg_core_field_widget_error($element, $error, $form, &$form_state){
@@ -351,13 +353,13 @@ function _arg_core_instante_fu(){
               ),
           'display' => array(
               'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 1,
                   ),
               'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 1,
                   ),
               ),
@@ -407,13 +409,13 @@ function _arg_core_instante_fu(){
   					),
   					'display' => array(
   							'default' => array(
-  									'label' => 'above',
-  									'type' => 'text',
+  									'label' => 'hidden',
+  									'type' => 'hidden',
   									'weight' => 1,
   							),
   							'teaser' => array(
-  									'label' => 'inline',
-  									'type' => 'text',
+  									'label' => 'hidden',
+  									'type' => 'hidden',
   									'weight' => 1,
   							),
   					),
@@ -429,13 +431,13 @@ function _arg_core_instante_fu(){
   					),
   					'display' => array(
   							'default' => array(
-  									'label' => 'above',
-  									'type' => 'text',
+  									'label' => 'hidden',
+  									'type' => 'hidden',
   									'weight' => 1,
   							),
   							'teaser' => array(
-  									'label' => 'inline',
-  									'type' => 'text',
+  									'label' => 'hidden',
+  									'type' => 'hidden',
   									'weight' => 1,
   							),
   					),
@@ -528,6 +530,7 @@ function _arg_core_instante_fu(){
   								'tz_handling' => 'none',
   								),
   				),
+  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'type' => 'text',
@@ -588,6 +591,7 @@ function _arg_core_instante_fu(){
   								'user_register_form' => '',
   								),
   				),
+  				
   				'bursa' => array(
   						'field_name' => 'bursa',
   						'entity_type' => 'node',
@@ -599,13 +603,13 @@ function _arg_core_instante_fu(){
   						),
   						'display' => array(
   								'default' => array(
-  										'label' => 'above',
-  										'type' => 'text',
+  										'label' => 'hidden',
+  										'type' => 'hidden',
   										'weight' => 1,
   								),
   								'teaser' => array(
-  										'label' => 'inline',
-  										'type' => 'text',
+  										'label' => 'hidden',
+  										'type' => 'hidden',
   										'weight' => 1,
   								),
   						),
@@ -634,6 +638,7 @@ function _arg_core_instante_fu(){
   			);
   	}
   	
+
   	function arg_core_ds_fields_info($entity_type) {
   		$fields = array();
   	
@@ -741,11 +746,12 @@ function _arg_core_instante_fu(){
   						'field_name' => 'tip_cont',
   						'no_ui' => FALSE,
   						'type' => 'list_integer',
-  						'settings' => array('allowed_values' => array(
+  						'settings' => array(
+  							'allowed_values' => array(
   								0 =>'student',
   								1 =>'profesor',
   								2 =>'companie'),
-  											 'allowed_values_function' => ''),
+  							'allowed_values_function' => ''),
   						
   						),
   				);
@@ -848,6 +854,7 @@ function _arg_core_instante_fu(){
   		}
   			
   		return $output;
+  			
   	}
 
 function _arg_core_campuri_aplicatie(){
@@ -862,6 +869,7 @@ function _arg_core_campuri_aplicatie(){
           ),
       );
 }
+
 
 function _arg_core_instante_aplicatie(){
 	return array(
@@ -898,16 +906,19 @@ function _arg_core_instante_aplicatie(){
               ),
           'display' => array(
               'default' => array(
-                  'label' => 'above',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 1,
                   ),
               'teaser' => array(
-                  'label' => 'inline',
-                  'type' => 'text',
+                  'label' => 'hidden',
+                  'type' => 'hidden',
                   'weight' => 1,
                   ),
               ),
           ),
 	);
 }
+
+
+

@@ -79,3 +79,22 @@ function arg_universitate_node_access($node, $op, $account){
 	}
 }
 
+function arg_universitate_node_insert($node){
+	
+	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'create')");
+	db_query("INSERT IGNORE INTO {arg_utilizator_drepturi} (uid,nid,drept) VALUES ($node->uid,$node->nid,'edit')");
+}
+
+function arg_universitate_node_delete($node){
+	
+	db_query("DELETE FROM {arg_utilizator_drepturi} WHERE nid=$node->nid");
+}
+
+/* function arg_universitate_node_view($node, $view_mode, $langcode){
+	//dsm($node);
+	//drupal_set_title('sup');
+	if($node->type == 'arg_universitate' && $view_mode == 'full'){
+		variable_set('site_name',$node->title);
+		
+	}
+} */

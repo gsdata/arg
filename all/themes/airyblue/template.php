@@ -41,3 +41,15 @@ function airyblue_menu_local_tasks(&$variables) {
 
   return $output;
 }
+
+function airyblue_preprocess_page(&$variables, $hook) {
+  if (isset($variables['node']->type)) {
+    $variables['theme_hook_suggestions'][] = 'page__' . $variables['node']->type;
+  }
+}
+
+function airyblue_preprocess_node(&$variables, $hook) {
+	if (isset($variables['node']->type)) {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type;
+  }
+}

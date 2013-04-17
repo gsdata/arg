@@ -23,7 +23,7 @@ function arg_universitate_install() {
     }
   }
 
-  function arg_universitate_uninstall(){
+function arg_universitate_uninstall(){
   	$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
   	$result = db_query($sql, array(':type' => 'arg_universitate'));
   	$nids = array();

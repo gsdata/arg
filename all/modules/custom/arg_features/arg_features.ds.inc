@@ -33,7 +33,17 @@ function arg_features_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
     'butoane' => array(
-      'weight' => '0',
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'node_title_nolink_h1',
+    ),
+    'referinta_univ' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'node_title_nolink_h1',
+    ),
+    'referinta_fac' => array(
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'node_title_nolink_h1',
     ),
@@ -48,7 +58,12 @@ function arg_features_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
     'butoane' => array(
-      'weight' => '0',
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'node_title_nolink_h1',
+    ),
+    'referinta_univ' => array(
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'node_title_nolink_h1',
     ),
@@ -63,7 +78,12 @@ function arg_features_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
     'butoane' => array(
-      'weight' => '0',
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'node_title_nolink_h1',
+    ),
+    'referinta_univ' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'node_title_nolink_h1',
     ),
@@ -78,7 +98,7 @@ function arg_features_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
     'butoane' => array(
-      'weight' => '0',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'node_title_nolink_h1',
     ),
@@ -136,24 +156,24 @@ function arg_features_ds_layout_settings_info() {
   $ds_layout->layout = 'ds_2col';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'butoane',
-      ),
       'left' => array(
-        1 => 'facultate',
-        2 => 'universitate',
-        3 => 'facultate_partenera',
-        4 => 'conditii',
-        5 => 'descriere_bursa',
+        0 => 'facultate_partenera',
+        1 => 'conditii',
+        2 => 'descriere_bursa',
+      ),
+      'right' => array(
+        3 => 'butoane',
+        4 => 'referinta_univ',
+        5 => 'referinta_fac',
       ),
     ),
     'fields' => array(
-      'butoane' => 'right',
-      'facultate' => 'left',
-      'universitate' => 'left',
       'facultate_partenera' => 'left',
       'conditii' => 'left',
       'descriere_bursa' => 'left',
+      'butoane' => 'right',
+      'referinta_univ' => 'right',
+      'referinta_fac' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -177,26 +197,28 @@ function arg_features_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'logo',
-        2 => 'mail',
-        3 => 'telefon',
-        4 => 'adresa',
-        5 => 'culoare_fundal',
-        6 => 'pseudonim',
-        7 => 'descriere',
+        1 => 'mail',
+        2 => 'telefon',
+        3 => 'adresa',
+        4 => 'culoare_fundal',
+        5 => 'pseudonim',
+        6 => 'descriere',
       ),
       'right' => array(
-        1 => 'butoane',
+        7 => 'referinta_univ',
+        8 => 'butoane',
       ),
     ),
     'fields' => array(
       'logo' => 'left',
-      'butoane' => 'right',
       'mail' => 'left',
       'telefon' => 'left',
       'adresa' => 'left',
       'culoare_fundal' => 'left',
       'pseudonim' => 'left',
       'descriere' => 'left',
+      'referinta_univ' => 'right',
+      'butoane' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -218,22 +240,20 @@ function arg_features_ds_layout_settings_info() {
   $ds_layout->layout = 'ds_2col';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'butoane',
-      ),
       'left' => array(
-        1 => 'bursa',
-        2 => 'data_inceput',
-        3 => 'data_sfarsit',
-        4 => 'stare',
+        0 => 'stare',
+      ),
+      'right' => array(
+        1 => 'perioada',
+        2 => 'butoane',
+        3 => 'referinta_univ',
       ),
     ),
     'fields' => array(
-      'butoane' => 'right',
-      'bursa' => 'left',
-      'data_inceput' => 'left',
-      'data_sfarsit' => 'left',
       'stare' => 'left',
+      'perioada' => 'right',
+      'butoane' => 'right',
+      'referinta_univ' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -255,27 +275,27 @@ function arg_features_ds_layout_settings_info() {
   $ds_layout->layout = 'ds_2col';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'butoane',
-      ),
       'left' => array(
-        1 => 'logo',
-        2 => 'mail',
-        3 => 'telefon',
-        4 => 'adresa',
-        5 => 'culoare_fundal',
-        6 => 'pseudonim',
+        0 => 'logo',
+        1 => 'mail',
+        2 => 'telefon',
+        3 => 'adresa',
+        4 => 'culoare_fundal',
+        5 => 'pseudonim',
         7 => 'descriere',
+      ),
+      'right' => array(
+        6 => 'butoane',
       ),
     ),
     'fields' => array(
-      'butoane' => 'right',
       'logo' => 'left',
       'mail' => 'left',
       'telefon' => 'left',
       'adresa' => 'left',
       'culoare_fundal' => 'left',
       'pseudonim' => 'left',
+      'butoane' => 'right',
       'descriere' => 'left',
     ),
     'classes' => array(),

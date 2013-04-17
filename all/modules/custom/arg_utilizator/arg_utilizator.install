@@ -2,7 +2,7 @@
 
 function arg_utilizator_install() {
 
-
+	drupal_uninstall_schema('arg_utilizator');
 	$t = get_t();
 	//node_types_rebuild();
 	$fields = array();
@@ -25,6 +25,13 @@ function arg_utilizator_install() {
 }
 
 function arg_utilizator_uninstall(){
+	
+	$instances = field_info_instances('user','user');
+	foreach($instances as $instance_name => $instance){
+		
+		field_delete_instance($instance);
+	}
+	field_purge_batch(1000);
 	drupal_uninstall_schema('arg_utilizator');
 }
 

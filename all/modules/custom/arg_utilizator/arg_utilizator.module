@@ -2,7 +2,7 @@
 
 function arg_utilizator_user_presave(&$edit, $account, $category){
 	$cont_nr = $edit['tip_cont']['und'][0]['value'];
-	
+	global $user;
 	switch ($cont_nr) {
 		case 0:
 			$role = user_role_load_by_name('Student');
@@ -20,13 +20,18 @@ function arg_utilizator_user_presave(&$edit, $account, $category){
 			break;
 		
 	}
-	
+	dsm($role);
+//	dsm($role_id);
 	$new_user_roles = array(
 			DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-			$role_id => 'Student',
+			$role_id => $role->name,
 	);
+//	dsm($account);
+//	dsm($edit);
+//	dsm($category);
+//	dsm($user);
 	
-	//$edit['roles'] = $new_user_roles;
+	$edit['roles'] = $new_user_roles;
 	//user_save($account);
 	//test
 }

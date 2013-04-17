@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme implementation to display a single Drupal page.
@@ -66,10 +65,10 @@
  * @see template_process()
  */
 ?>
-
+<div class='custom_header' style="position:absolute; width:100%; height:115px;"></div>
   <div id="page-wrapper"><div id="page">
 
-    <div id="header"><div class="section clearfix">
+    <div id="header" style='opacity:0.9;'><div class='custom_header' style="z-index:-1; position:absolute; width:100%; height:115px;"></div><div class="section clearfix">
 
       <?php if ($logo): ?>
         <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
